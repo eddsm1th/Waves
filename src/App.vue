@@ -1,0 +1,215 @@
+<template>
+    <section class="window window--fill" @click="focus_selector();">
+        <div class="window__header">
+            <h1 class="window__title">$://EddSmith.com/Main</h1>
+        </div>
+        <div class="window__main" style="background-image: url('https://www.betaarchive.com/imageupload/1304990899.or.90622.png'); height: 100%;">
+            <section class="window js-draggable">
+                <div class="window__header js-draggable-trigger">
+                    <h1 class="window__title">$://EddSmith.com/Menu</h1>
+                </div>
+                <div class="window__main">
+                    <div class="menu">
+                        <p>You've reached the menu; good job.</p>
+                        <p>Let's see if you can select an option...</p>
+                        <ul class="menu__list">
+                            <li class="menu__item" v-for="menu_item in menu_items">
+                                '{{ menu_item.name }}'
+                                <template v-for="index in menu_item_spacing_amount( menu_item.name.length )">-</template>
+                                '{{ menu_item.description }}'
+                            </li>
+                        </ul>
+                        <p>To select an option, type the name then hit [RETURN].</p>
+                        <form @submit="handle_menu_selection( $event );">
+                            $://Input:
+                            <input class="menu__selector js-menu-selector" type="text" name="" v-model="potential_selection">
+                        </form>
+                    </div>
+                </div>
+            </section>
+            <window v-for="menu_item in menu_items" :menu_item_data="menu_item" :menu_items="menu_items"></window>
+        </div>
+    </section>
+</template>
+
+<script>
+    import Window from './components/Window.vue';
+
+    export default {
+        name: 'app',
+
+        components: { 
+            Window,
+        },
+
+        methods: {
+            menu_item_spacing_amount ( current_word_length ) {
+                return Math.ceil( this.max_menu_item_length / 4 ) * 4 + 4 - parseInt( current_word_length );
+            },
+
+            focus_selector () {
+                this.menu_selector.focus();
+            },
+
+            handle_menu_selection ( event ) {
+                event.preventDefault();
+
+                if ( this.selected_menu_item ) this.selected_menu_item.is_open = true;
+                this.potential_selection = "";
+            }
+        },
+
+        computed: {
+            max_menu_item_length () {
+                return Math.max.apply( Math, this.menu_items.map( function ( value ) { return value.name.length } ) );
+            },
+
+            selected_menu_item () {
+                return this.menu_items.filter( menu_item => menu_item.name.toLowerCase() === this.potential_selection.toLowerCase() )[0];
+            }
+        },
+
+        mounted () {
+            this.menu_selector = document.querySelector('.js-menu-selector');
+
+            const draggable_boxes = [...document.querySelectorAll('.js-draggable')];
+
+            draggable_boxes.forEach( function ( draggable_box ) {
+                const draggable_box_trigger = draggable_box.querySelector('.js-draggable-trigger');
+
+                if ( draggable_box_trigger ) {
+                    let starting_x = null,
+                        starting_y = null,
+                        can_be_dragged = false,
+                        new_x = null,
+                        new_y = null;
+
+                    draggable_box.setAttribute('data-prev-x', "0");
+                    draggable_box.setAttribute('data-prev-y', "0");
+
+                    draggable_box_trigger.addEventListener( 'mousedown', function ( event ) {
+                        can_be_dragged = true;
+                        starting_x = event.clientX;
+                        starting_y = event.clientY;
+                    } );
+
+                    window.addEventListener('mousemove', function ( event ) {
+                        if ( can_be_dragged ) {
+                            new_x = event.clientX - starting_x;
+                            new_y = event.clientY - starting_y;
+
+                            draggable_box.style.transform = `translate(${ new_x + parseInt( draggable_box.dataset.prevX ) }px, ${ new_y + parseInt( draggable_box.dataset.prevY ) }px)`;
+                        }
+                    } );
+
+                    window.addEventListener( 'mouseup', function () {
+                        can_be_dragged = false;
+                        draggable_box.setAttribute('data-prev-x', new_x + parseInt( draggable_box.dataset.prevX ) );
+                        draggable_box.setAttribute('data-prev-y', new_y + parseInt( draggable_box.dataset.prevY ) );
+                        new_x = 0;
+                        new_y = 0;
+                    } );
+                }
+            } );
+        },
+
+        data () {
+            return {
+                menu_items: [
+                    {
+                        'name' : 'About',
+                        'description' : 'Who da fuck is dat guy',
+                        'is_closeable' : true,
+                        'is_open' : false,
+                    },
+                    {
+                        'name' : 'Contact',
+                        'description' : 'Slide into the DMs',
+                        'is_closeable' : true,
+                        'is_open' : false,
+                    },
+                    {
+                        'name' : 'Settings',
+                        'description' : 'You like jazz?',
+                        'is_closeable' : true,
+                        'is_open' : true,
+                    },
+                    {
+                        'name' : 'Minesweeper',
+                        'description' : 'Kaboom',
+                        'is_closeable' : true,
+                        'is_open' : false,
+                    }
+                ],
+                potential_selection: '',
+                menu_selector: null,
+            }
+        },
+    };
+</script>
+
+<style lang="scss">
+    *, *:after, *:before {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+    }
+
+    html {
+        font-size: 20px;
+        line-height: 1.4;
+        font-family: calibri;
+
+        &.fs-Small {
+            font-size: 16px;
+        }
+
+        &.fs-Large {
+            font-size: 24px;
+        }
+    }
+
+    body {
+        background-color: #000;
+        height: 100vh;
+        width: 100vw;
+        overflow: hidden;
+    }
+
+    .menu {
+        font-family: monospace;
+        font-weight: 400;
+        color: #fff;
+        font-size: .6rem;
+
+        > * {
+            &:not( :last-child ) {
+                margin-bottom: calc( .6rem * 1.4 );
+            } 
+        }
+
+        &__list {
+            list-style-type: none;
+            padding: calc( .6rem * 1.4 );
+        }
+
+        &__item {
+            &:not( :last-child ) {
+                margin-bottom: 12px;
+            }    
+        }
+
+        &__selector {
+            background-color: transparent;
+            border: none;
+            color: #fff;
+            font-family: monospace;
+            font-weight: 400;
+            font-size: .6rem;
+
+            &:focus {
+                outline: none;
+            }
+        }
+    }
+</style>
