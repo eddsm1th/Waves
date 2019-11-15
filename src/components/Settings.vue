@@ -17,6 +17,20 @@
                 </li>
             </ul>
         </div>
+        <div>
+            <h2 class="settings__title">El chango backgroundo</h2>
+            <ul class="settings__wallpaper">
+                <li class="settings__wallpaper-item" v-for="wallpaper, id in this.wallpapers" @click="handle_new_wallpaper_selection( wallpaper )">
+                    <figure class="settings__wallpaper-item-media">
+                        <img src="https://i.kym-cdn.com/photos/images/original/000/948/031/828.jpg">
+                    </figure>
+                    <label>
+                        <input type="radio" :checked="wallpaper.checked">
+                        {{ wallpaper.name }}
+                    </label>
+                </li>
+            </ul>
+        </div>
     </div>
 </template>
 
@@ -43,36 +57,64 @@
         		wallpapers: [
         			{
         				'name' : "Can't beat the classics",
-        				'url' : '',
+        				'url' : 'https://www.betaarchive.com/imageupload/1304990899.or.90622.png',
+                        'checked' : true,
         			},
         			{
         				'name' : 'Sure, why not...',
-        				'url' : '',
+        				'url' : 'https://i.kym-cdn.com/photos/images/original/000/948/031/828.jpg',
+                        'checked' : false,
         			},
         			{
         				'name' : 'A series of tubes!',
-        				'url' : '',
+        				'url' : 'https://i.ytimg.com/vi/_cZC67wXUTs/hqdefault.jpg',
+                        'checked' : false,
         			},
         			{
         				'name' : 'oooh, arty',
-        				'url' : '',
-        			}
+        				'url' : 'https://i2.wp.com/metro.co.uk/wp-content/uploads/2013/12/spiderman.jpg?quality=90&strip=all&zoom=1&resize=644%2C858',
+                        'checked' : false,
+        			},
+                    {
+                        'name' : 'Kermit is king',
+                        'url' : 'https://img.huffingtonpost.com/asset/5bad5bba1f0000390122a1bd.jpeg?ops=scalefit_630_noupscale',
+                        'checked' : false,
+                    }
         		]
         	}
         },
 
         methods: {
             handle_new_font_selection ( selected_font ) {
-                if ( this.checked_font_size !== selected_font ) {
-                    const   previous_font_size = this.font_sizes.filter( font_size => font_size.checked === true )[0],
-                            html = document.querySelector('html');
+                if ( this.current_font_size !== selected_font ) {
+                    const html = document.querySelector('html');
 
-                    previous_font_size.checked = false;
-                    html.classList.remove(`fs-${previous_font_size.name}`);
+                    html.classList.remove(`fs-${this.current_font_size.name}`);
+                    this.current_font_size.checked = false;
                     selected_font.checked = true;
                     html.classList.add(`fs-${selected_font.name}`);
                 }
-            }
+            },
+
+            handle_new_wallpaper_selection ( selected_wallpaper ) {
+                if ( this.current_wallpaper !== selected_wallpaper ) {
+                    const target_element = document.querySelector('.js-background-image-element');
+
+                    this.current_wallpaper.checked = false;
+                    selected_wallpaper.checked = true;
+                    target_element.style.backgroundImage = `url(${selected_wallpaper.url})`;
+                }
+            },
+        },
+
+        computed: {
+            current_font_size () {
+                return this.font_sizes.find( font_size => font_size.checked === true );
+            },
+
+            current_wallpaper () {
+                return this.wallpapers.find( wallpaper => wallpaper.checked === true );
+            },
         }
     };
 </script>
@@ -82,6 +124,7 @@
         background-color: #C3C6CB;
         padding: 1rem;
         font-weight: 700;
+        width: 16rem;
 
         > * {
             &:not( :last-child ) {
@@ -97,12 +140,14 @@
         }
 
         &__header-media {
-            width: 30%;
+            width: 3.5rem;
+            height: 3rem;
             position: relative;
-            height: 0;
-            padding-bottom: 24%;
             margin-right: .5rem;
-            border: 1px solid darken( #C3C6CB, 20% );
+            border-top: 1px solid darken( #C3C6CB, 20% );
+            border-right: 1px solid darken( #C3C6CB, 20% );
+            border-bottom: 1px solid darken( #C3C6CB, 10% );
+            border-left: 1px solid darken( #C3C6CB, 10% );
 
             img {
                 position: absolute;
@@ -119,7 +164,7 @@
             font-size: 1rem;
         }
 
-        &__font-size {
+        &__font-size, &__wallpaper {
             margin-top: 1rem;
             list-style-type: none;
             display: flex;
@@ -129,11 +174,61 @@
         &__font-size-item {
             width: 33.333%;
             padding-right: .5rem;
-            font-size: .8rem;
 
             label {
+                font-size: .8rem;
                 display: flex;
                 align-items: center;
+                line-height: 1;
+                margin-top: .2rem;
+
+                input {
+                    margin-right: .2rem;
+                }
+            }
+        }
+
+        &__wallpaper {
+            margin-left: -.6rem;
+            margin-bottom: -.6rem;
+            width: 14rem;
+        }
+
+        &__wallpaper-item {
+            padding: 0 0 .6rem .6rem;
+            width: 50%;
+
+            label {
+                font-size: .8rem;
+                display: flex;
+                align-items: center;
+                line-height: 1;
+                margin-top: .2rem;
+
+                input {
+                    margin-right: .2rem;
+                }
+            }
+        }
+
+        &__wallpaper-item-media {
+            width: 100%;
+            height: 0;
+            padding-bottom: 56.25%;
+            position: relative;
+            overflow: hidden;
+
+            > img {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                object-fit: cover;
+                width: 100%;
+                border-top: 1px solid darken( #C3C6CB, 20% );
+                border-right: 1px solid darken( #C3C6CB, 20% );
+                border-bottom: 1px solid darken( #C3C6CB, 10% );
+                border-left: 1px solid darken( #C3C6CB, 10% );
             }
         }
     }

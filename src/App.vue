@@ -1,10 +1,10 @@
 <template>
-    <section class="window window--fill" @click="focus_selector();">
+    <section class="window window--fill" >
         <div class="window__header">
-            <h1 class="window__title">$://EddSmith.com/Main</h1>
+            <h1 class="window__title">$://EddSmith.com/Desktop</h1>
         </div>
-        <div class="window__main" style="background-image: url('https://www.betaarchive.com/imageupload/1304990899.or.90622.png'); height: 100%;">
-            <section class="window js-draggable">
+        <div class="window__main js-background-image-element" style="background-image: url('https://www.betaarchive.com/imageupload/1304990899.or.90622.png'); height: 100%;">
+            <section class="window window--menu js-draggable" @click="focus_selector();">
                 <div class="window__header js-draggable-trigger">
                     <h1 class="window__title">$://EddSmith.com/Menu</h1>
                 </div>
@@ -28,6 +28,10 @@
                 </div>
             </section>
             <window v-for="menu_item in menu_items" :menu_item_data="menu_item" :menu_items="menu_items"></window>
+
+            <!-- Single blog post -->
+            <portal-target name="single-blog-post"></portal-target>
+            
         </div>
     </section>
 </template>
@@ -71,46 +75,6 @@
 
         mounted () {
             this.menu_selector = document.querySelector('.js-menu-selector');
-
-            const draggable_boxes = [...document.querySelectorAll('.js-draggable')];
-
-            draggable_boxes.forEach( function ( draggable_box ) {
-                const draggable_box_trigger = draggable_box.querySelector('.js-draggable-trigger');
-
-                if ( draggable_box_trigger ) {
-                    let starting_x = null,
-                        starting_y = null,
-                        can_be_dragged = false,
-                        new_x = null,
-                        new_y = null;
-
-                    draggable_box.setAttribute('data-prev-x', "0");
-                    draggable_box.setAttribute('data-prev-y', "0");
-
-                    draggable_box_trigger.addEventListener( 'mousedown', function ( event ) {
-                        can_be_dragged = true;
-                        starting_x = event.clientX;
-                        starting_y = event.clientY;
-                    } );
-
-                    window.addEventListener('mousemove', function ( event ) {
-                        if ( can_be_dragged ) {
-                            new_x = event.clientX - starting_x;
-                            new_y = event.clientY - starting_y;
-
-                            draggable_box.style.transform = `translate(${ new_x + parseInt( draggable_box.dataset.prevX ) }px, ${ new_y + parseInt( draggable_box.dataset.prevY ) }px)`;
-                        }
-                    } );
-
-                    window.addEventListener( 'mouseup', function () {
-                        can_be_dragged = false;
-                        draggable_box.setAttribute('data-prev-x', new_x + parseInt( draggable_box.dataset.prevX ) );
-                        draggable_box.setAttribute('data-prev-y', new_y + parseInt( draggable_box.dataset.prevY ) );
-                        new_x = 0;
-                        new_y = 0;
-                    } );
-                }
-            } );
         },
 
         data () {
@@ -132,14 +96,26 @@
                         'name' : 'Settings',
                         'description' : 'You like jazz?',
                         'is_closeable' : true,
-                        'is_open' : true,
+                        'is_open' : false,
+                    },
+                    {
+                        'name' : 'Blog',
+                        'description' : "I ain't no Dickins",
+                        'is_closeable' : true,
+                        'is_open' : false,
                     },
                     {
                         'name' : 'Minesweeper',
                         'description' : 'Kaboom',
                         'is_closeable' : true,
+                        'is_open' : true,
+                    },
+                    {
+                        'name' : 'Radio',
+                        'description' : 'Listen in to The MZA and the E Masta Flash',
+                        'is_closeable' : true,
                         'is_open' : false,
-                    }
+                    },
                 ],
                 potential_selection: '',
                 menu_selector: null,
@@ -149,6 +125,8 @@
 </script>
 
 <style lang="scss">
+    $base_line_height: 1.4;
+
     *, *:after, *:before {
         box-sizing: border-box;
         margin: 0;
@@ -157,7 +135,7 @@
 
     html {
         font-size: 20px;
-        line-height: 1.4;
+        line-height: $base_line_height;
         font-family: calibri;
 
         &.fs-Small {
@@ -184,18 +162,18 @@
 
         > * {
             &:not( :last-child ) {
-                margin-bottom: calc( .6rem * 1.4 );
+                margin-bottom: calc( .6rem * #{$base_line_height} );
             } 
         }
 
         &__list {
             list-style-type: none;
-            padding: calc( .6rem * 1.4 );
+            padding: calc( .6rem * #{$base_line_height} );
         }
 
         &__item {
             &:not( :last-child ) {
-                margin-bottom: 12px;
+                margin-bottom: .6rem;
             }    
         }
 

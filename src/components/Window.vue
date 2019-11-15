@@ -2,7 +2,7 @@
     <section class="window js-draggable" v-show="menu_item_data.is_open">
         <div class="window__header js-draggable-trigger">
             <h1 class="window__title">$://EddSmith.com/{{ menu_item_data.name }}</h1>
-            <span class="window__close" :v-if="menu_item_data.closeable" @click="closewindow()">✕</span>
+            <span class="window__close" :v-if="menu_item_data.closeable" @click="closewindow">✕</span>
         </div>
         <div class="window__main window__main--no-padding">
             <component :is="menu_item_data.name"/>
@@ -15,6 +15,8 @@
     import Contact from './Contact';
     import Settings from './Settings';
     import Minesweeper from './Minesweeper';
+    import Blog from './Blog';
+    import Radio from './Radio';
 
     export default {
         name: 'window',
@@ -23,7 +25,9 @@
             About,
             Contact,
             Settings,
-            Minesweeper
+            Minesweeper,
+            Blog,
+            Radio
         },
 
         props: {
@@ -46,6 +50,11 @@
         border: 1px solid #fff;
         background-color: #000;
 
+        &--menu {
+            top: 20%;
+            left: 30%;
+        }
+
         &--fill {
             width: calc(100vw - 1px);
             height: calc(100vh - 1px);
@@ -62,7 +71,7 @@
         }
 
         &__title {
-            padding: 5px;
+            padding: .25rem;
             font-family: monospace;
             font-weight: 400;
             color: #fff;
@@ -72,7 +81,7 @@
         }
 
         &__close {
-            padding: 5px;
+            padding: .25rem;
             border-left: 1px solid #fff;
             font-family: monospace;
             font-weight: 400;
@@ -81,7 +90,9 @@
         }
 
         &__main {
-            padding: 4px;
+            padding: .25rem;
+            background-size: cover;
+            background-position: center;
 
             &--no-padding {
                 padding: 0;

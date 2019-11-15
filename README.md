@@ -1,4 +1,4 @@
-# bluedit
+# Waves
 
 > A Vue.js project
 
