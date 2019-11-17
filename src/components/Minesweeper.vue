@@ -2,9 +2,10 @@
     <div class="minesweeper">
     	<div class="minesweeper__header">
     		<span>header</span>
+            <span @click="reset">reset</span>
     	</div>
     	<ul class="minesweeper__grid" :class="{ 'game-over' : this.game_over }">
-    		<li class="minesweeper__tile" v-for="index in this.tile_count" v-on:contextmenu.prevent="handle_tile_right_click( index )" @click.left="handle_tile_left_click( index )" :id="`ms-tile-${index}`"></li>
+    		<li class="minesweeper__tile js-tile" v-for="index in this.tile_count" v-on:contextmenu.prevent="handle_tile_right_click( index )" @click.left="handle_tile_left_click( index )" :id="`ms-tile-${index}`"></li>
     	</ul>
     </div>
 </template>
@@ -24,6 +25,8 @@
 				bombs_coordinates : [],
                 placed_flags : [],
 				game_over : false,
+                winner : false,
+                tiles : null,
         	}
         },
 
@@ -35,9 +38,23 @@
 
         mounted () {
         	this.populate_grid_with_bombs();
+            
+            this.tiles = document.querySelectorAll('.js-tile');
         },
 
         methods: {
+            reset () {
+                this.game_over = this.winner = false;
+                
+                this.placed_flags = [];
+                
+                this.populate_grid_with_bombs();
+                
+                this.tiles.forEach( function ( tile ) {
+                    tile.classList = 'minesweeper__tile'
+                } );
+            },
+            
         	handle_tile_left_click ( index ) {
         		if ( this.check_if_bomb( index ) ) {
         			this.game_over = true;
@@ -48,7 +65,7 @@
         	},
                 
             handle_tile_right_click ( index ) {
-        		debugger;
+        		this.place_flag_at_index( index );
         	},
 
         	show_all_bombs () {
@@ -135,6 +152,8 @@
         	},
 
         	populate_grid_with_bombs () {
+                this.bombs_coordinates = [];
+                
         		let i = 0;
 
         		while( i < this.minesweeper_config.bomb_count ) {
@@ -163,6 +182,8 @@
             border-right: 1px solid darken( #C3C6CB, 20% );
             border-bottom: 1px solid darken( #C3C6CB, 10% );
             border-left: 1px solid darken( #C3C6CB, 20% );
+            display: flex;
+            justify-content: space-between;
 		}
 
 		&__grid {
