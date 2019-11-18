@@ -4,8 +4,8 @@
     		<span>header</span>
             <span @click="reset">reset</span>
     	</div>
-    	<ul class="minesweeper__grid" :class="{ 'game-over' : this.game_over }">
-    		<li class="minesweeper__tile js-tile" v-for="index in this.tile_count" v-on:contextmenu.prevent="handle_tile_right_click( index )" @click.left="handle_tile_left_click( index )" :id="`ms-tile-${index}`"></li>
+    	<ul class="minesweeper__grid" :class="{ 'game-over' : this.game_over, 'winner' : this.winner }">
+    		<li class="minesweeper__tile js-tile" v-for="index in this.tile_count" @contextmenu.prevent="handle_tile_right_click( index )" @click.left="handle_tile_left_click( index )" :id="`ms-tile-${index}`"></li>
     	</ul>
     </div>
 </template>
@@ -19,8 +19,8 @@
         		minesweeper_config : {
 					width : 12,
 					height: 16,
-//					bomb_count : Math.floor( Math.random() * 45 ) + 15,
-					bomb_count : 40,
+					// bomb_count : Math.floor( Math.random() * 45 ) + 15,
+					bomb_count : 30,
 				},
 				bombs_coordinates : [],
                 placed_flags : [],
@@ -38,6 +38,7 @@
 
         mounted () {
         	this.populate_grid_with_bombs();
+            // this.show_all_bombs();
             
             this.tiles = document.querySelectorAll('.js-tile');
         },
@@ -45,11 +46,8 @@
         methods: {
             reset () {
                 this.game_over = this.winner = false;
-                
                 this.placed_flags = [];
-                
                 this.populate_grid_with_bombs();
-                
                 this.tiles.forEach( function ( tile ) {
                     tile.classList = 'minesweeper__tile'
                 } );
@@ -65,8 +63,26 @@
         	},
                 
             handle_tile_right_click ( index ) {
-        		this.place_flag_at_index( index );
+        		this.toggle_flag_at_index( index );
         	},
+
+            toggle_flag_at_index ( index ) {
+                const clicked_tile = document.querySelector(`#ms-tile-${ index }`);
+
+                if ( clicked_tile.classList.contains( 'flag' ) ) {
+                    clicked_tile.classList.remove( 'flag' );
+                    this.placed_flags.splice( this.placed_flags.indexOf( index ), 1 );
+                } else {
+                    clicked_tile.classList.add( 'flag' );
+                    this.placed_flags.push( index );
+
+                    this.placed_flags.sort( function ( a, b ) {
+                        return a > b ? 1 : a > b ? -1 : 0;
+                    } );
+
+                    if ( this.placed_flags.toString() === this.bombs_coordinates.toString() ) this.winner = true;
+                }
+            },
 
         	show_all_bombs () {
         		this.bombs_coordinates.forEach( function ( bomb_coord ) {
@@ -78,11 +94,10 @@
 
         	reveal_tile ( index ) {
         		const surrounding_bomb_count = this.get_surrounding_bomb_count( index );
+
         		document.querySelector(`#ms-tile-${ index }`).classList.add(`touching-${ surrounding_bomb_count }`, 'clicked');
                 
-                if ( surrounding_bomb_count === 0 ) {
-                    this.cascade( index );
-                }
+                if ( surrounding_bomb_count === 0 ) this.cascade( index );
         	},
                 
             cascade ( index ) {
@@ -90,20 +105,12 @@
                         bomb_bound_data = this.check_if_bomb_is_at_bounds( bomb_coords );
                     
                 for ( let i = 0; i < 8; i ++ ) {
-                    const   y_index_offset = ( i < 3 ? -1 : i < 5 ? 0 : 1 ) * this.minesweeper_config.width,
-                            x_index_offset = ( ( i + ( i > 3 ? 1 : 0 ) ) % 3 ) - 1,
-                            to_check_index = index + y_index_offset + x_index_offset;
-                    
-                    if (
-                        ( bomb_bound_data.left && ( i === 0 || i === 3 || i === 5 ) ) ||
-                        ( bomb_bound_data.right && ( i === 2 || i === 4 || i === 7 ) ) ||
-                        ( bomb_bound_data.top && ( i === 0 || i === 1 || i === 2 ) ) ||
-                        ( bomb_bound_data.bottom && ( i === 5 || i === 6 || i === 7 ) )
-                    ) continue; // there must be a better way to do this // checking boundaries
-                    
+                    if ( this.check_if_position_is_offscreen( bomb_bound_data, i ) ) continue;
+
+                    const to_check_index = this.get_current_surrounding_position( i, index );
+
                     if ( !document.querySelector(`#ms-tile-${to_check_index}`).classList.contains('clicked') ) this.reveal_tile( to_check_index );
                 }
-
             },
 
         	get_surrounding_bomb_count ( index ) {
@@ -112,24 +119,30 @@
                     bomb_bound_data = this.check_if_bomb_is_at_bounds( bomb_coords );
                     
                 for ( let i = 0; i < 8; i ++ ) {
-                    const   y_index_offset = ( i < 3 ? -1 : i < 5 ? 0 : 1 ) * this.minesweeper_config.width,
-                            x_index_offset = ( ( i + ( i > 3 ? 1 : 0 ) ) % 3 ) - 1,
-                            to_check_index = index + y_index_offset + x_index_offset;
-                    
-                    if (
-                        ( bomb_bound_data.left && ( i === 0 || i === 3 || i === 5 ) ) ||
-                        ( bomb_bound_data.right && ( i === 2 || i === 4 || i === 7 ) ) ||
-                        ( bomb_bound_data.top && ( i === 0 || i === 1 || i === 2 ) ) ||
-                        ( bomb_bound_data.bottom && ( i === 5 || i === 6 || i === 7 ) )
-                    ) continue; // there must be a better way to do this // checking boundaries
-                    
-                    if ( this.bombs_coordinates.indexOf( to_check_index ) !== -1 ) {
-                        surrounding_bomb_count++;
-                    }
+                    if ( this.check_if_position_is_offscreen( bomb_bound_data, i ) ) continue; 
+                    if ( this.bombs_coordinates.indexOf( this.get_current_surrounding_position( i, index ) ) !== -1 ) surrounding_bomb_count++;
                 }
 
         		return surrounding_bomb_count;
         	},
+
+            get_current_surrounding_position ( i, index ) {
+                const   y_index_offset = ( i < 3 ? -1 : i < 5 ? 0 : 1 ) * this.minesweeper_config.width,
+                        x_index_offset = ( ( i + ( i > 3 ? 1 : 0 ) ) % 3 ) - 1,
+                        to_check_index = index + y_index_offset + x_index_offset;
+
+                return to_check_index;
+            },
+
+            check_if_position_is_offscreen ( bomb_bound_data, i ) {
+                if (
+                    ( bomb_bound_data.left && ( i === 0 || i === 3 || i === 5 ) ) ||
+                    ( bomb_bound_data.right && ( i === 2 || i === 4 || i === 7 ) ) ||
+                    ( bomb_bound_data.top && ( i === 0 || i === 1 || i === 2 ) ) ||
+                    ( bomb_bound_data.bottom && ( i === 5 || i === 6 || i === 7 ) )
+                ) return true;
+                return false;
+            },
                 
             check_if_bomb_is_at_bounds ( bomb_coords ) {
                 return {
@@ -156,7 +169,7 @@
                 
         		let i = 0;
 
-        		while( i < this.minesweeper_config.bomb_count ) {
+        		while ( i < this.minesweeper_config.bomb_count ) {
         			const 	new_bomb_index = Math.ceil( Math.random() * ( this.minesweeper_config.width * this.minesweeper_config.height ) );
 
         			if ( this.bombs_coordinates.indexOf( new_bomb_index ) === -1 ) {
@@ -164,6 +177,10 @@
         				i++;
         			}
         		}
+
+                this.bombs_coordinates.sort( function ( a, b ) {
+                    return a > b ? 1 : a < b ? -1 : 0;
+                } );
         	}
         }
     };
@@ -256,6 +273,10 @@
                         color: #000;
                     }
                 }
+            }
+
+            &.flag {
+                background-image: url('../assets/images/minesweeper/flag.png')
             }
                                          
             &.bomb {
