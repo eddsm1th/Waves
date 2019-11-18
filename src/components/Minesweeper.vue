@@ -3,14 +3,51 @@
     	<div class="minesweeper__header">
     		<span>header</span>
             <span @click="reset">reset</span>
+            <span>{{ this.current_time }}</span>
     	</div>
-    	<ul class="minesweeper__grid" :class="{ 'game-over' : this.game_over, 'winner' : this.winner }">
-    		<li class="minesweeper__tile js-tile" v-for="index in this.tile_count" @contextmenu.prevent="handle_tile_right_click( index )" @click.left="handle_tile_left_click( index )" :id="`ms-tile-${index}`"></li>
-    	</ul>
+        <div v-show="!this.showing_leaderboard">
+        	<ul class="minesweeper__grid" :class="{ 'game-over' : this.game_over, 'winner' : this.winner }">
+        		<li class="minesweeper__tile js-tile" v-for="index in this.tile_count" @contextmenu.prevent="handle_tile_right_click( index )" @click.left="handle_tile_left_click( index )" :id="`ms-tile-${index}`"></li>
+        	</ul>
+            <div class="minesweeper__winner-form" v-if="this.winner">
+                <input placeholder="---" type="text" v-model="new_name">
+                <button @click="submit_score">Submit</button>
+                <p>View Leaderboard</p>
+            </div>
+        </div>
+        <div v-show="this.showing_leaderboard">
+            <h3>Leaderboard</h3>
+            <ul>
+                <li>
+                    <span>Name</span>
+                    <span>Time</span>
+                </li>
+                <li v-for="score in this.scores">
+                    <span>{{ score.name }}</span>
+                    <span>{{ score.time }}</span>
+                </li>
+            </ul>
+        </div>
+        <span @click="toggle_leaderboard()">show/hide leaderboard</span>
     </div>
 </template>
 
 <script>
+    // Your web app's Firebase configuration
+    var firebaseConfig = {
+        apiKey: "AIzaSyCqKaMx2MaOHKrSm2V2HmzCR60fhwtdcfg",
+        authDomain: "waves-69ff1.firebaseapp.com",
+        databaseURL: "https://waves-69ff1.firebaseio.com",
+        projectId: "waves-69ff1",
+        storageBucket: "waves-69ff1.appspot.com",
+        messagingSenderId: "907904080763",
+        appId: "1:907904080763:web:d203596597245efa1fbbde",
+        measurementId: "G-GP9YVN20M8"
+    };
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    // firebase.analytics();
+
     export default {
         name: 'minesweeper',
 
@@ -20,13 +57,17 @@
 					width : 12,
 					height: 16,
 					// bomb_count : Math.floor( Math.random() * 45 ) + 15,
-					bomb_count : 30,
+					bomb_count : 10,
 				},
 				bombs_coordinates : [],
                 placed_flags : [],
 				game_over : false,
                 winner : false,
                 tiles : null,
+                current_time : 0,
+                scores: this.get_scores(),
+                showing_leaderboard: false,
+                new_name: '',
         	}
         },
 
@@ -39,11 +80,60 @@
         mounted () {
         	this.populate_grid_with_bombs();
             // this.show_all_bombs();
-            
             this.tiles = document.querySelectorAll('.js-tile');
         },
 
         methods: {
+            submit_score () {
+                if ( this.scores[ this.scores.length - 1 ].time === '---' || this.current_time < this.scores[ this.scores.length - 1 ].time ) {
+                    for ( let i = 0; i < this.scores.length; i ++ ) {
+                        if ( this.current_time < this.scores[i].time || this.scores[i].time === '---' ) {
+                            const new_highscore = {
+                                name: this.new_name,
+                                time: this.current_time
+                            }
+                            this.scores.splice( i, 0, new_highscore );
+                            this.scores.pop();
+                            break;
+                        }
+                    }
+
+                    this.write_new_scores_to_db();
+                }
+            },
+
+            write_new_scores_to_db () {
+                for ( let i = 0; i < 10; i ++ ) {
+                    firebase.database().ref( 'scores/score_' + i ).set( this.scores[i] );
+                }
+            },
+
+            toggle_leaderboard () {
+                this.showing_leaderboard = !this.showing_leaderboard;
+            },
+
+            get_scores () {
+                const database = firebase.database();
+
+                let score_array = [];
+                
+                for ( let i = 0; i < 10; i ++ ) {
+                    const new_item = {
+                        name: null,
+                        time: null
+                    };
+
+                    firebase.database().ref( 'scores/score_' + i ).once( 'value' ).then( function( snapshot ) {
+                        new_item.name = ( snapshot.val() && snapshot.val().name ) || '---';
+                        new_item.time = ( snapshot.val() && snapshot.val().time ) || '---';
+                    } );
+
+                    score_array.push( new_item );
+                } 
+
+                return score_array;
+            },
+
             reset () {
                 this.game_over = this.winner = false;
                 this.placed_flags = [];
@@ -51,6 +141,23 @@
                 this.tiles.forEach( function ( tile ) {
                     tile.classList = 'minesweeper__tile'
                 } );
+                this.reset_timer();
+            },
+
+            timer () {
+                const self = this;
+                setTimeout( function () {
+                    if ( !self.game_over && !self.winner ) {
+                        self.current_time ++;
+                        // console.log( this.current_time );
+                        self.timer();
+                    }
+                }, 1000 );
+            },
+
+            reset_timer () {
+                this.current_time = 0;
+                this.timer();
             },
             
         	handle_tile_left_click ( index ) {
@@ -69,18 +176,20 @@
             toggle_flag_at_index ( index ) {
                 const clicked_tile = document.querySelector(`#ms-tile-${ index }`);
 
-                if ( clicked_tile.classList.contains( 'flag' ) ) {
-                    clicked_tile.classList.remove( 'flag' );
-                    this.placed_flags.splice( this.placed_flags.indexOf( index ), 1 );
-                } else {
-                    clicked_tile.classList.add( 'flag' );
-                    this.placed_flags.push( index );
+                if ( !clicked_tile.classList.contains( 'clicked' ) ) {
+                    if ( clicked_tile.classList.contains( 'flag' ) ) {
+                        clicked_tile.classList.remove( 'flag' );
+                        this.placed_flags.splice( this.placed_flags.indexOf( index ), 1 );
+                    } else {
+                        clicked_tile.classList.add( 'flag' );
+                        this.placed_flags.push( index );
 
-                    this.placed_flags.sort( function ( a, b ) {
-                        return a > b ? 1 : a > b ? -1 : 0;
-                    } );
+                        this.placed_flags.sort( function ( a, b ) {
+                            return a > b ? 1 : a < b ? -1 : 0;
+                        } );
 
-                    if ( this.placed_flags.toString() === this.bombs_coordinates.toString() ) this.winner = true;
+                        if ( this.placed_flags.toString() === this.bombs_coordinates.toString() ) this.winner = true;
+                    }
                 }
             },
 
@@ -259,18 +368,27 @@
             &:not( .clicked ) {
                 background-color: darken( #C3C6CB, 10% );
             }
-            
-            @for $i from 0 through 8 {
+
+            $colours: #00f, #009c03, #f00, #8c00ff, #00ffd5, #ffff00, #ff00f2, #ff8000;
+            @each $colour in $colours  {
+                $i: index($colours, $colour);
                 &.touching-#{$i} {
                     &:after {
-                        content: "#{$i}";
+                        @if $i == 0 {
+                            content: "";
+                        } @else {
+                            content: "#{$i}";
+                        }
+                        color: #{$colour};
                         position: absolute;
                         top: 0;
                         left: 0;
                         width: 100%;
                         height: 100%;
                         font-size: 1rem;
-                        color: #000;
+                        display: flex;
+                        justify-content: center;
+                        font-weight: 900;
                     }
                 }
             }

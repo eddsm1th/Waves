@@ -1,4 +1,4 @@
-template>
+<template>
     <section class="window js-draggable" v-show="menu_item_data.is_open">
         <div class="window__header js-draggable-trigger">
             <h1 class="window__title">$://EddSmith.com/{{ menu_item_data.name }}</h1>

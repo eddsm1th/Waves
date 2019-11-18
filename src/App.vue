@@ -58,6 +58,8 @@
             handle_menu_selection ( event ) {
                 event.preventDefault();
 
+                // if ( this.potential_selection = "404" ) 
+
                 if ( this.selected_menu_item ) this.selected_menu_item.is_open = true;
                 this.potential_selection = "";
             }
