@@ -124,8 +124,8 @@
                     };
 
                     firebase.database().ref( 'scores/score_' + i ).once( 'value' ).then( function( snapshot ) {
-                        new_item.name = ( snapshot.val() && snapshot.val().name ) || '---';
-                        new_item.time = ( snapshot.val() && snapshot.val().time ) || '---';
+                        new_item.name = ( snapshot.val() && snapshot.val().name );
+                        new_item.time = snapshot.val().time;
                     } );
 
                     score_array.push( new_item );
