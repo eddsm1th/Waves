@@ -114,7 +114,7 @@
                     },
                     {
                         'name' : 'Radio',
-                        'description' : 'Listen in to The MZA and the E Masta Flash',
+                        'description' : 'Tune into The MZA and the E Masta Flash',
                         'is_closeable' : true,
                         'is_open' : false,
                     },

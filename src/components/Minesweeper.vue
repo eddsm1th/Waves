@@ -1,34 +1,34 @@
 <template>
     <div class="minesweeper">
     	<div class="minesweeper__header">
-    		<span>header</span>
-            <span @click="reset">reset</span>
+            <h3 @click="reset">reset</h3>
             <span>{{ this.current_time }}</span>
     	</div>
-        <div v-show="!this.showing_leaderboard">
+        <div v-show="!this.showing_leaderboard" class="minesweeper__game">
         	<ul class="minesweeper__grid" :class="{ 'game-over' : this.game_over, 'winner' : this.winner }">
         		<li class="minesweeper__tile js-tile" v-for="index in this.tile_count" @contextmenu.prevent="handle_tile_right_click( index )" @click.left="handle_tile_left_click( index )" :id="`ms-tile-${index}`"></li>
         	</ul>
-            <div class="minesweeper__winner-form" v-if="this.winner">
-                <input placeholder="---" type="text" v-model="new_name">
+            <div class="minesweeper__winner-form" v-if="this.winner && this.can_submit_score">
+                <p>Submit Score</p>
+                <input placeholder="Enter name" type="text" v-model="new_name">
                 <button @click="submit_score">Submit</button>
-                <p>View Leaderboard</p>
+                <p @click="toggle_leaderboard()">View Leaderboard</p>
             </div>
         </div>
-        <div v-show="this.showing_leaderboard">
+        <div v-show="this.showing_leaderboard" class="minesweeper__leaderboard">
             <h3>Leaderboard</h3>
-            <ul>
-                <li>
+            <ul class="minesweeper__leaderboard-items">
+                <li class="minesweeper__leaderboard-item">
                     <span>Name</span>
                     <span>Time</span>
                 </li>
-                <li v-for="score in this.scores">
-                    <span>{{ score.name }}</span>
-                    <span>{{ score.time }}</span>
+                <li v-for="score in this.scores" class="minesweeper__leaderboard-item">
+                    <h3>{{ score.name }}</h3>
+                    <h3>{{ score.time }}</h3>
                 </li>
             </ul>
         </div>
-        <span @click="toggle_leaderboard()">show/hide leaderboard</span>
+        <h3 @click="toggle_leaderboard()" class="minesweeper__leaderboard-toggle">show/hide leaderboard</h3>
     </div>
 </template>
 
@@ -68,6 +68,7 @@
                 scores: this.get_scores(),
                 showing_leaderboard: false,
                 new_name: '',
+                can_submit_score: false,
         	}
         },
 
@@ -81,6 +82,8 @@
         	this.populate_grid_with_bombs();
             // this.show_all_bombs();
             this.tiles = document.querySelectorAll('.js-tile');
+
+            this.timer();
         },
 
         methods: {
@@ -100,6 +103,10 @@
 
                     this.write_new_scores_to_db();
                 }
+
+                this.new_name = '';
+                this.toggle_leaderboard();
+                this.can_submit_score = false;
             },
 
             write_new_scores_to_db () {
@@ -142,6 +149,8 @@
                     tile.classList = 'minesweeper__tile'
                 } );
                 this.reset_timer();
+                this.can_submit_score = false;
+                if ( this.showing_leaderboard ) this.showing_leaderboard = false;
             },
 
             timer () {
@@ -149,24 +158,24 @@
                 setTimeout( function () {
                     if ( !self.game_over && !self.winner ) {
                         self.current_time ++;
-                        // console.log( this.current_time );
-                        self.timer();
                     }
+                    self.timer();
                 }, 1000 );
             },
 
             reset_timer () {
                 this.current_time = 0;
-                this.timer();
             },
             
         	handle_tile_left_click ( index ) {
-        		if ( this.check_if_bomb( index ) ) {
-        			this.game_over = true;
-        			this.show_all_bombs();
-        		} else {
-        			this.reveal_tile( index );
-        		}
+                if ( this.placed_flags.indexOf( index ) === -1 ) {
+            		if ( this.check_if_bomb( index ) ) {
+            			this.game_over = true;
+            			this.show_all_bombs();
+            		} else {
+            			this.reveal_tile( index );
+            		}
+                }
         	},
                 
             handle_tile_right_click ( index ) {
@@ -188,7 +197,10 @@
                             return a > b ? 1 : a < b ? -1 : 0;
                         } );
 
-                        if ( this.placed_flags.toString() === this.bombs_coordinates.toString() ) this.winner = true;
+                        if ( this.placed_flags.toString() === this.bombs_coordinates.toString() ) { 
+                            this.winner = true;
+                            this.can_submit_score = true;
+                        }
                     }
                 }
             },
@@ -312,6 +324,48 @@
             justify-content: space-between;
 		}
 
+        &__leaderboard {
+            width: 24rem;
+            padding: .4rem;
+            border-top: 1px solid darken( #C3C6CB, 10% );
+            border-right: 1px solid darken( #C3C6CB, 20% );
+            border-bottom: 1px solid darken( #C3C6CB, 10% );
+            border-left: 1px solid darken( #C3C6CB, 20% );
+        }
+
+        &__leaderboard-items {
+            list-style-type: none;
+        }
+
+        &__leaderboard-item {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        &__leaderboard-toggle {
+            padding: .4rem;
+            margin-top: .4rem;
+            border-top: 1px solid darken( #C3C6CB, 10% );
+            border-right: 1px solid darken( #C3C6CB, 20% );
+            border-bottom: 1px solid darken( #C3C6CB, 10% );
+            border-left: 1px solid darken( #C3C6CB, 20% );
+        }
+
+        &__winner-form {
+            position: absolute;
+            top: 60%;
+            left: 50%;
+            width: 100%;
+            transform: translateX(-50%);
+            z-index: 4;
+            text-align: center;
+            color: #fff;
+
+            p {
+                margin: .2rem;
+            }
+        }
+
 		&__grid {
 			list-style-type: none;
 			display: flex;
@@ -333,6 +387,7 @@
                 color: #f00;
                 font-size: 2rem;
                 font-weight: 900;
+                background-color: rgba( 0, 0, 0, .5 );
             }
 
 			&.game-over {
