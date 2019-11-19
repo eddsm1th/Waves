@@ -57,7 +57,7 @@
 					width : 12,
 					height: 16,
 					// bomb_count : Math.floor( Math.random() * 45 ) + 15,
-					bomb_count : 10,
+					bomb_count : 28,
 				},
 				bombs_coordinates : [],
                 placed_flags : [],
