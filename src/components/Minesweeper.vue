@@ -88,6 +88,8 @@
 
         methods: {
             submit_score () {
+                this.scores = this.get_scores();
+                
                 if ( this.scores[ this.scores.length - 1 ].time === '---' || this.current_time < this.scores[ this.scores.length - 1 ].time ) {
                     for ( let i = 0; i < this.scores.length; i ++ ) {
                         if ( this.current_time < this.scores[i].time || this.scores[i].time === '---' ) {
