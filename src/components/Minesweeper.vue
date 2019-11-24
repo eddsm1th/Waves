@@ -1,8 +1,9 @@
 <template>
     <div class="minesweeper">
     	<div class="minesweeper__header">
-            <h3 @click="reset">reset</h3>
-            <span>{{ this.current_time }}</span>
+            <span class="flags">{{ this.remaining_flags }}</span>
+            <span class="reset" @click="reset">reset</span>
+            <span class="time">{{ this.current_time }}</span>
     	</div>
         <div v-show="!this.showing_leaderboard" class="minesweeper__game">
         	<ul class="minesweeper__grid" :class="{ 'game-over' : this.game_over, 'winner' : this.winner }">
@@ -33,7 +34,6 @@
 </template>
 
 <script>
-    // Your web app's Firebase configuration
     var firebaseConfig = {
         apiKey: "AIzaSyCqKaMx2MaOHKrSm2V2HmzCR60fhwtdcfg",
         authDomain: "waves-69ff1.firebaseapp.com",
@@ -54,10 +54,10 @@
         data () {
         	return {
         		minesweeper_config : {
-					width : 12,
+					width : 24,
 					height: 16,
 					// bomb_count : Math.floor( Math.random() * 45 ) + 15,
-					bomb_count : 28,
+					bomb_count : 64,
 				},
 				bombs_coordinates : [],
                 placed_flags : [],
@@ -75,7 +75,11 @@
         computed: {
         	tile_count () {
         		return this.minesweeper_config.width * this.minesweeper_config.height;
-        	}
+        	},
+
+            remaining_flags () {
+                return this.minesweeper_config.bomb_count - this.placed_flags.length;
+            }
         },
 
         mounted () {
@@ -179,7 +183,7 @@
         	},
                 
             handle_tile_right_click ( index ) {
-        		this.toggle_flag_at_index( index );
+                this.toggle_flag_at_index( index );
         	},
 
             toggle_flag_at_index ( index ) {
@@ -190,27 +194,30 @@
                         clicked_tile.classList.remove( 'flag' );
                         this.placed_flags.splice( this.placed_flags.indexOf( index ), 1 );
                     } else {
-                        clicked_tile.classList.add( 'flag' );
-                        this.placed_flags.push( index );
+                        if ( this.remaining_flags > 0 ) {
+                            clicked_tile.classList.add( 'flag' );
+                            this.placed_flags.push( index );
 
-                        this.placed_flags.sort( function ( a, b ) {
-                            return a > b ? 1 : a < b ? -1 : 0;
-                        } );
+                            this.placed_flags.sort( function ( a, b ) {
+                                return a > b ? 1 : a < b ? -1 : 0;
+                            } );
 
-                        if ( this.placed_flags.toString() === this.bombs_coordinates.toString() ) { 
-                            this.winner = true;
-                            this.can_submit_score = true;
+                            if ( this.placed_flags.toString() === this.bombs_coordinates.toString() ) { 
+                                this.winner = true;
+                                this.can_submit_score = true;
+                            }
                         }
                     }
                 }
             },
 
-        	show_all_bombs () {
-        		this.bombs_coordinates.forEach( function ( bomb_coord ) {
-                    const bomb_tile = document.querySelector(`#ms-tile-${ bomb_coord }`);
-                    
-        			bomb_tile.classList.add('bomb');	
-        		} );
+        	show_all_bombs ( current_bomb_index = 0 ) {
+                let self = this;
+                document.querySelector(`#ms-tile-${ this.bombs_coordinates[ current_bomb_index ] }`).classList.add('bomb');
+        		
+                setTimeout( function () {
+                    if ( current_bomb_index + 1 < self.minesweeper_config.bomb_count ) self.show_all_bombs( current_bomb_index + 1 );  
+                }, 30 )
         	},
 
         	reveal_tile ( index ) {
@@ -309,6 +316,7 @@
 
 <style lang="scss">
 	.minesweeper {
+        border: 1px solid #000;
 		padding: .4rem;
 		background-color: #C3C6CB;
 		font-size: .6rem;
@@ -322,6 +330,17 @@
             border-left: 1px solid darken( #C3C6CB, 20% );
             display: flex;
             justify-content: space-between;
+
+            > * {
+                flex: 1;
+
+                &.reset {
+                    text-align: center;
+                }
+                &.time {
+                    text-align: right;
+                }
+            }
 		}
 
         &__leaderboard {
@@ -370,9 +389,8 @@
 			list-style-type: none;
 			display: flex;
 			flex-wrap: wrap;
-			width: 24rem;
+			width: 36rem;
 			position: relative;
-			z-index: 2;
                                              
            &:before {
                 position: absolute;
@@ -411,8 +429,8 @@
 		}
 
 		&__tile {
-			width: 2rem;
-			height: 2rem;
+			width: 1.5rem;
+			height: 1.5rem;
 			border-left: 3px solid lighten( #C3C6CB, 30% );
             border-top: 3px solid lighten( #C3C6CB, 20% );
             border-right: 3px solid darken( #C3C6CB, 30% );
@@ -421,7 +439,7 @@
             position: relative;
             
             &:not( .clicked ) {
-                background-color: darken( #C3C6CB, 10% );
+                background-color: darken( #C3C6CB, 15% );
             }
 
             $colours: #00f, #009c03, #f00, #8c00ff, #00ffd5, #ffff00, #ff00f2, #ff8000;

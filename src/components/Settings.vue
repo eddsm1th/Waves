@@ -121,8 +121,6 @@
 
 <style lang="scss">
     .settings {
-        background-color: #C3C6CB;
-        padding: 1rem;
         font-weight: 700;
         width: 16rem;
 
