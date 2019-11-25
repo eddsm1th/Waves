@@ -1,10 +1,12 @@
 <template>
     <main>
-        <!-- <splashscreen></splashscreen> -->
+        <splashscreen></splashscreen>
 
         <section class="window window--fill" >
             <div class="window__header">
                 <h1 class="window__title">$://EddSmith.com/Desktop</h1>
+
+                <headerutilities></headerutilities>
             </div>
             <div class="window__main js-background-image-element" style="background-image: url('https://www.betaarchive.com/imageupload/1304990899.or.90622.png'); height: 100%;">
                 <section class="window active window--menu js-draggable" @click="focus_selector();">
@@ -50,6 +52,7 @@
 <script>
     import Window from './components/Window.vue';
     import Splashscreen from './components/Splashscreen.vue';
+    import Headerutilities from './components/HeaderUtilities.vue';
 
     export default {
         name: 'app',
@@ -57,6 +60,7 @@
         components: { 
             Window,
             Splashscreen,
+            Headerutilities,
         },
 
         methods: {

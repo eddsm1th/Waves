@@ -20,7 +20,7 @@
         <div>
             <h2 class="settings__title">El chango backgroundo</h2>
             <ul class="settings__wallpaper">
-                <li class="settings__wallpaper-item" v-for="wallpaper, id in this.wallpapers" @click="handle_new_wallpaper_selection( wallpaper )">
+                <li class="settings__wallpaper-item" v-for="wallpaper in this.wallpapers" @click="handle_new_wallpaper_selection( wallpaper )">
                     <figure class="settings__wallpaper-item-media">
                         <img src="https://i.kym-cdn.com/photos/images/original/000/948/031/828.jpg">
                     </figure>
