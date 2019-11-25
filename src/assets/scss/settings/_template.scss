@@ -1,0 +1,29 @@
+    
+    $base_line_height: 1.4;
+
+    *, *:after, *:before {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+    }
+
+    html {
+        font-size: 20px;
+        line-height: $base_line_height;
+        font-family: calibri;
+
+        &.fs-Small {
+            font-size: 16px;
+        }
+
+        &.fs-Large {
+            font-size: 24px;
+        }
+    }
+
+    body {
+        background-color: #000;
+        height: 100vh;
+        width: 100vw;
+        overflow: hidden;
+    }

@@ -2,7 +2,7 @@
     <div class="blog-archive">
     	<div class="blog-archive__header">
     		<span class="blog-archive__header-title">$://EddSmith.com/D:/Documents/Blog</span>
-    		<input class="blog-archive__search" v-model="searched_query" placeholder="Search blogs">
+    		<input class="blog-archive__search" v-model="searched_query" placeholder="Search blogs...">
     	</div>
     	<table class="blog-archive__main">
     		<thead class="blog-archive__main-header">
@@ -20,7 +20,7 @@
     		</thead>
     		<tr class="blog-archive__item" v-for="blog_post in this.available_blog_posts" @click="open_this_blog_post( blog_post )">
     			<td class="blog-archive__item-title">
-    				{{ blog_post.title }}.txt
+    				{{ blog_post.title }}.doc
     			</td>
     			<td class="blog-archive__item-date">
     				{{ blog_post.date }}
@@ -37,12 +37,16 @@
                     <h1 class="window__title">$://EddSmith.com/BlogPost</h1>
                     <span class="window__close" @click="close_window">✕</span>
                 </div>
-                <template v-if="this.open_blog_post">
-                    <div class="window__main window__main--no-padding" style="color: #fff;">
-                        <h3>{{ this.open_blog_post.title }}</h3>
-                        <p>{{ this.open_blog_post.content }}</p>
+                <div class="window__main" style="color: #fff;">
+                    <div class="blog-post">
+                        <div class="blog-post__inner">
+                            <div class="blog-post__content">
+                                <h3 class="blog-post__title">{{ this.open_blog_post ? this.open_blog_post.title : '' }}</h3>
+                                <div class="blog-post__body" v-html="this.open_blog_post ? this.open_blog_post.content : ''"></div>
+                            </div>
+                        </div>
                     </div>
-                </template>
+                </div>
             </section>
         </portal>
     </div>
@@ -56,25 +60,25 @@
         	return {
         		blog_posts : [
         			{
-        				'title' : 'A',
-        				'content' : 'Look Mum i know how to type more things.',
+        				'title' : 'this is some bullshit placeholder',
+        				'content' : '<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi lacinia a orci a iaculis. Vestibulum eget placerat justo. Sed vehicula volutpat tristique. Sed et efficitur urna.</p><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi lacinia a orci a iaculis. Vestibulum eget placerat justo. Sed vehicula volutpat tristique. Sed et efficitur urna.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi lacinia a orci a iaculis. Vestibulum eget placerat justo. Sed vehicula volutpat tristique. Sed et efficitur urna.</p>',
         				'date' : '2019-01-16',
         				'is_open' : false
         			},
                     {
-                        'title' : 'B',
+                        'title' : 'how the dinosaurs went extinct and the birth of a new era',
                         'content' : 'This is the story of Zoltan.',
                         'date' : '2017-01-16',
                         'is_open' : false
                     },
                     {
-                        'title' : 'D',
+                        'title' : 'was Ceasar gay?',
                         'content' : 'This is the story of Zoltan.',
                         'date' : '2015-01-16',
                         'is_open' : false
                     },
         			{
-        				'title' : 'C',
+        				'title' : 'beavers... why?',
         				'content' : 'This is when the world was blessed with my presence.',
         				'date' : '1998-01-16',
         				'is_open' : false
@@ -139,7 +143,8 @@
         computed: {
         	available_blog_posts () {
         		if ( this.searched_query !== '' && this.searched_query !== null ) {
-        			return this.sort_blog_posts( this.blog_posts.filter( blog_post => blog_post.title.toLowerCase().includes( this.searched_query.toLowerCase() ) ) );
+                    const self = this;
+        			return this.sort_blog_posts( this.blog_posts.filter( blog_post => blog_post.title.toLowerCase().includes( self.searched_query.toLowerCase() ) ) );
         		}
 
         		return this.sort_blog_posts( this.blog_posts );
@@ -170,6 +175,7 @@
         	},
 
             sort_blog_posts ( array ) {
+
                 if ( this.current_sort_option && this.current_sort_option.order !== 0 ) {
                     if ( this.current_sort_option.type === "name" ) {
                         if ( this.current_sort_option.order === 1 ) {
@@ -186,7 +192,7 @@
                     }
                 }
 
-                return this.blog_posts;
+                return array;
             },
 
             sort_array_by_date ( array, order = 1 ) {
@@ -222,27 +228,25 @@
 
 <style lang="scss">
 	.blog-archive {
-		padding: .2rem;
+		padding: .4rem;
 		background-color: #C3C6CB;
 		font-size: .6rem;
         min-width: 25vw;
+        border: 1px solid #000;
 
 		&__header {
 			display: flex;
-			padding-bottom: .2rem;
+			padding-bottom: .4rem;
 		}
 
 		&__header-title, &__search {
 			background: #fff;
-			padding: .2rem;
-			border-top: 1px solid darken( #C3C6CB, 20% );
-            border-right: 1px solid darken( #C3C6CB, 20% );
-            border-bottom: 1px solid darken( #C3C6CB, 10% );
-            border-left: 1px solid darken( #C3C6CB, 10% );
+			padding: .4rem;
+			border: 1px solid #000;
 		}
 
 		&__header-title {
-			margin-right: .2rem;
+			margin-right: .4rem;
 			padding-right: 1rem;
 			flex: 1;
 		}
@@ -250,18 +254,16 @@
 		&__search {
 			max-width: 6rem;
 			font-size: .6rem;
+            min-width: 180px;
 		}
 
 		&__main {
 			width: 100%;
 			background: #fff;
-			border-top: 1px solid darken( #C3C6CB, 20% );
-            border-right: 1px solid darken( #C3C6CB, 20% );
-            border-bottom: 1px solid darken( #C3C6CB, 10% );
-            border-left: 1px solid darken( #C3C6CB, 10% );
+			border: 1px solid #000;
 
 			td {
-				padding: .2rem 1rem .2rem .2rem;
+				padding: .2rem 1rem .2rem .4rem;
 			}
 		}
 
@@ -302,4 +304,42 @@
 			cursor: pointer;
 		}
 	}
+
+    .blog-post {
+        border: 1px solid #000;
+        padding: .8rem 4rem;
+        background: #C3C6CB;
+
+        &__inner {
+            $width: 600px;
+            border: 1px solid #000;
+            padding: 1rem;
+            color: #000;
+            background-color: #fff;
+            width: 16vw;
+            min-width: 400px;
+            position: relative;
+            height: 0;
+            padding: 0;
+            padding-bottom: 141.4%;
+            box-shadow: .4rem .4rem rgba( 0, 0, 0, .3 );
+        }
+
+        &__content {
+            font-family: helvetica;
+            padding: 1rem;
+            font-size: .8rem;
+        }
+
+        &__title {
+            font-size: 1.2rem;
+            padding-bottom: 1.2rem;
+        }
+
+        &__body {
+            > * + * {
+                margin-top: .8rem;
+            }
+        }
+    }
 </style>
