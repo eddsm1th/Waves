@@ -9,13 +9,6 @@
                 <headerutilities></headerutilities>
             </div>
             <div class="window__main js-background-image-element" style="background-image: url('https://www.betaarchive.com/imageupload/1304990899.or.90622.png'); height: 100%;">
-                <section class="window active window--menu js-draggable" @click="focus_selector();">
-                    <div class="window__header js-draggable-trigger">
-                        <h1 class="window__title">$://EddSmith.com/Menu</h1>
-                    </div>
-                    <div class="window__main">
-                    </div>
-                </section>
 
                 <ul class="icons">
                     <icon v-for="menu_item in menu_items" :menu_item_data="menu_item" :menu_items="menu_items"></icon>
@@ -48,41 +41,13 @@
         },
 
         methods: {
-            menu_item_spacing_amount ( current_word_length ) {
-                return Math.ceil( this.max_menu_item_length / 4 ) * 4 + 4 - parseInt( current_word_length );
-            },
-
-            focus_selector () {
-                this.menu_selector.focus();
-            },
-
-            handle_menu_selection ( event ) {
-                event.preventDefault();
-                if ( this.selected_menu_item ) {
-                    if ( this.focused_menu_item ) this.focused_menu_item.is_focused = false;
-                    this.selected_menu_item.is_open = this.selected_menu_item.is_focused = true;
-                }
-
-                this.potential_selection = "";
-            }
+            
         },
 
         computed: {
-            max_menu_item_length () {
-                return Math.max.apply( Math, this.menu_items.map( function ( value ) { return value.name.length } ) );
-            },
-
-            selected_menu_item () {
-                return this.menu_items.find( menu_item => menu_item.name.toLowerCase() === this.potential_selection.toLowerCase() );
-            },
-
             focused_menu_item () {
                 return this.menu_items.find( menu_item => menu_item.is_focused === true );
             }
-        },
-
-        mounted () {
-            this.menu_selector = document.querySelector('.js-menu-selector');
         },
 
         data () {
@@ -138,7 +103,6 @@
                         'is_focused' : false
                     },
                 ],
-                potential_selection: '',
                 menu_selector: null,
             }
         },

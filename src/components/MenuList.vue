@@ -1,5 +1,5 @@
 <template>
-    <div class="menu">
+    <div class="menu" @click="focus_selector()">
         <p>Congratulations; you've reached the</p>
         <p>
             &nbsp;&nbsp;&nbsp;&nbsp;__&nbsp;&nbsp;___<br>
@@ -9,7 +9,7 @@
             /_/&nbsp;&nbsp;/_/\___/_/&nbsp;/_/\__,_/<br>
         </p>
         <p>Let's see if you can select an option...</p>
-        <!-- <ul class="menu__list">
+        <ul class="menu__list">
             <li class="menu__item" v-for="menu_item in menu_items">
                 '{{ menu_item.name }}'
                 <template v-for="index in menu_item_spacing_amount( menu_item.name.length )">-</template>
@@ -20,7 +20,7 @@
         <form @submit="handle_menu_selection( $event );">
             $://Input:
             <input class="menu__selector js-menu-selector" type="text" name="" v-model="potential_selection">
-        </form> -->
+        </form>
     </div>
 </template>
 
@@ -32,6 +32,47 @@
             menu_item_data: Object,
             menu_items: Array,
         },
+
+        data () {
+        	return {
+        		potential_selection: '',
+        		menu_selector: null,
+        	}
+        },
+
+        mounted () {
+            this.menu_selector = document.querySelector('.js-menu-selector');
+        },
+
+        methods: {
+        	menu_item_spacing_amount ( current_word_length ) {
+                return Math.ceil( this.max_menu_item_length / 4 ) * 4 + 4 - parseInt( current_word_length );
+            },
+
+			handle_menu_selection ( event ) {
+                event.preventDefault();
+                if ( this.selected_menu_item ) {
+                    if ( this.focused_menu_item ) this.focused_menu_item.is_focused = false;
+                    this.selected_menu_item.is_open = this.selected_menu_item.is_focused = true;
+                }
+
+                this.potential_selection = "";
+            },
+
+            focus_selector () {
+                this.menu_selector.focus();
+            },
+        },
+
+        computed: {
+        	max_menu_item_length () {
+                return Math.max.apply( Math, this.menu_items.map( function ( value ) { return value.name.length } ) );
+            },
+
+            selected_menu_item () {
+                return this.menu_items.find( menu_item => menu_item.name.toLowerCase() === this.potential_selection.toLowerCase() );
+            },
+        }
     };
 </script>
 
