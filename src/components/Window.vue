@@ -5,7 +5,7 @@
             <span class="window__close" :v-if="menu_item_data.closeable" @click="close_window">✕</span>
         </div>
         <div class="window__main">
-            <component :is="menu_item_data.name"/>
+            <component :is="menu_item_data.name" :menu_item_data="menu_item_data" :menu_items="menu_items"/>
         </div>
     </section>
 </template>
@@ -17,6 +17,7 @@
     import Minesweeper from './Minesweeper';
     import Blog from './Blog';
     import Radio from './Radio';
+    import MenuList from './MenuList';
 
     export default {
         name: 'window',
@@ -27,7 +28,8 @@
             Settings,
             Minesweeper,
             Blog,
-            Radio
+            Radio,
+            MenuList,
         },
 
         props: {
@@ -78,7 +80,7 @@
         // }
 
         &:not( &--fill ) {
-            box-shadow: $window_padding $window_padding rgba( 0, 0, 0, .3 );
+            box-shadow: $window_padding $window_padding rgba( 0, 0, 0, .5 );
         }
 
         &--menu {

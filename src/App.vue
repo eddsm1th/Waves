@@ -1,6 +1,6 @@
 <template>
     <main>
-        <splashscreen></splashscreen>
+        <!-- <splashscreen></splashscreen> -->
 
         <section class="window window--fill" >
             <div class="window__header">
@@ -14,31 +14,13 @@
                         <h1 class="window__title">$://EddSmith.com/Menu</h1>
                     </div>
                     <div class="window__main">
-                        <div class="menu">
-                            <p>Congratulations; you've reached the</p>
-                            <p>
-                                &nbsp;&nbsp;&nbsp;&nbsp;__&nbsp;&nbsp;___<br>
-                                &nbsp;&nbsp;&nbsp;/&nbsp;&nbsp;|/&nbsp;&nbsp;/__&nbsp;&nbsp;____&nbsp;&nbsp;__&nbsp;&nbsp;__<br>
-                                &nbsp;&nbsp;/&nbsp;/|_/&nbsp;/&nbsp;_&nbsp;\/&nbsp;__&nbsp;\/&nbsp;/&nbsp;/&nbsp;/<br>
-                                &nbsp;/&nbsp;/&nbsp;&nbsp;/&nbsp;/&nbsp;&nbsp;__/&nbsp;/&nbsp;/&nbsp;/&nbsp;/_/&nbsp;/<br>
-                                /_/&nbsp;&nbsp;/_/\___/_/&nbsp;/_/\__,_/<br>
-                            </p>
-                            <p>Let's see if you can select an option...</p>
-                            <ul class="menu__list">
-                                <li class="menu__item" v-for="menu_item in menu_items">
-                                    '{{ menu_item.name }}'
-                                    <template v-for="index in menu_item_spacing_amount( menu_item.name.length )">-</template>
-                                    '{{ menu_item.description }}'
-                                </li>
-                            </ul>
-                            <p>To select an option, type the name then hit [RETURN].</p>
-                            <form @submit="handle_menu_selection( $event );">
-                                $://Input:
-                                <input class="menu__selector js-menu-selector" type="text" name="" v-model="potential_selection">
-                            </form>
-                        </div>
                     </div>
                 </section>
+
+                <ul class="icons">
+                    <icon v-for="menu_item in menu_items" :menu_item_data="menu_item" :menu_items="menu_items"></icon>
+                </ul>
+
                 <window v-for="menu_item in menu_items" :menu_item_data="menu_item" :menu_items="menu_items"></window>
 
                 <!-- Single blog post -->
@@ -53,6 +35,7 @@
     import Window from './components/Window.vue';
     import Splashscreen from './components/Splashscreen.vue';
     import Headerutilities from './components/HeaderUtilities.vue';
+    import Icon from './components/Icon.vue';
 
     export default {
         name: 'app',
@@ -61,6 +44,7 @@
             Window,
             Splashscreen,
             Headerutilities,
+            Icon,
         },
 
         methods: {
@@ -74,10 +58,11 @@
 
             handle_menu_selection ( event ) {
                 event.preventDefault();
+                if ( this.selected_menu_item ) {
+                    if ( this.focused_menu_item ) this.focused_menu_item.is_focused = false;
+                    this.selected_menu_item.is_open = this.selected_menu_item.is_focused = true;
+                }
 
-                // if ( this.potential_selection = "404" ) 
-
-                if ( this.selected_menu_item ) this.selected_menu_item.is_open = true;
                 this.potential_selection = "";
             }
         },
@@ -88,7 +73,11 @@
             },
 
             selected_menu_item () {
-                return this.menu_items.filter( menu_item => menu_item.name.toLowerCase() === this.potential_selection.toLowerCase() )[0];
+                return this.menu_items.find( menu_item => menu_item.name.toLowerCase() === this.potential_selection.toLowerCase() );
+            },
+
+            focused_menu_item () {
+                return this.menu_items.find( menu_item => menu_item.is_focused === true );
             }
         },
 
@@ -99,6 +88,13 @@
         data () {
             return {
                 menu_items: [
+                    {
+                        'name' : 'MenuList',
+                        'description' : '',
+                        'is_closeable' : true,
+                        'is_open' : false,
+                        'is_focused' : false
+                    },
                     {
                         'name' : 'About',
                         'description' : 'Who da fuck is dat guy',

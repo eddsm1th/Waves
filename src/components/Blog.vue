@@ -102,7 +102,7 @@
             const draggable_boxes = [...document.querySelectorAll('.js-draggable')];
 
             draggable_boxes.forEach( function ( draggable_box ) {
-                const draggable_box_trigger = draggable_box.querySelector('.js-draggable-trigger');
+                const draggable_box_trigger = draggable_box.classList.contains('js-draggable-trigger') ? draggable_box : draggable_box.querySelector('.js-draggable-trigger');
 
                 if ( draggable_box_trigger ) {
                     let starting_x = null,
@@ -143,8 +143,7 @@
         computed: {
         	available_blog_posts () {
         		if ( this.searched_query !== '' && this.searched_query !== null ) {
-                    const self = this;
-        			return this.sort_blog_posts( this.blog_posts.filter( blog_post => blog_post.title.toLowerCase().includes( self.searched_query.toLowerCase() ) ) );
+        			return this.sort_blog_posts( this.blog_posts.filter( blog_post => blog_post.title.toLowerCase().includes( this.searched_query.toLowerCase() ) ) );
         		}
 
         		return this.sort_blog_posts( this.blog_posts );

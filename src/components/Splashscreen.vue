@@ -53,11 +53,10 @@
         methods: {
             uptick () {
                 if ( this.current_tick < this.ticks ) {
-                    const self = this;
                     setTimeout( function () {
-                        self.current_tick ++;
-                        self.uptick();
-                    }, this.time_per_tick );
+                        this.current_tick ++;
+                        this.uptick();
+                    }.bind( this ), this.time_per_tick );
                 } else if ( this.current_tick === this.ticks ) {
                     this.blip_blip_trigger();
                 }
@@ -66,22 +65,20 @@
             blip_blip_trigger () {
                 this.blip_blip = true;
 
-                const self = this;
                 setTimeout( function () {
-                    self.loaded = true;
-                    self.fade_out_title();
-                }, 900 );
+                    this.loaded = true;
+                    this.fade_out_title();
+                }.bind( this ), 900 );
             },
 
             fade_out_title () {
-                const self = this;
                 setTimeout( function () {
-                    self.title_fade_out = true;
+                    this.title_fade_out = true;
                     
                     setTimeout( function () {
-                        self.fully_loaded = true;
-                    }, 400 )
-                }, 800 );
+                        this.fully_loaded = true;
+                    }.bind( this ), 400 )
+                }.bind( this ), 800 );
             },
 
             check_if_tick_should_show ( index ) {

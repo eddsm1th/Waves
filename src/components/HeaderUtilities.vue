@@ -22,18 +22,17 @@
         },
 
         mounted () {
-            this.set_times( new Date() );
+            this.set_times();
         },
 
         methods: {
-            set_times ( date ) {
+            set_times ( date = new Date() ) {
                 this.date_time.minutes = date.getMinutes();
                 this.date_time.hours = date.getHours();
 
-                const self = this;
                 setTimeout( function () {
-                    self.set_times( new Date() );
-                }, 60000 )
+                    this.set_times();
+                }.bind( this ), 60000 )
             }
         }
     };

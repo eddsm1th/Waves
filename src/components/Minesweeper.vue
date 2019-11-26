@@ -160,13 +160,12 @@
             },
 
             timer () {
-                const self = this;
                 setTimeout( function () {
-                    if ( !self.game_over && !self.winner ) {
-                        self.current_time ++;
+                    if ( !this.game_over && !this.winner ) {
+                        this.current_time ++;
                     }
-                    self.timer();
-                }, 1000 );
+                    this.timer();
+                }.bind( this ), 1000 );
             },
 
             reset_timer () {
@@ -214,12 +213,11 @@
             },
 
         	show_all_bombs ( current_bomb_index = 0 ) {
-                let self = this;
                 document.querySelector(`#ms-tile-${ this.bombs_coordinates[ current_bomb_index ] }`).classList.add('bomb');
         		
                 setTimeout( function () {
-                    if ( current_bomb_index + 1 < self.minesweeper_config.bomb_count ) self.show_all_bombs( current_bomb_index + 1 );  
-                }, 30 )
+                    if ( current_bomb_index + 1 < this.minesweeper_config.bomb_count ) this.show_all_bombs( current_bomb_index + 1 );  
+                }.bind( this ), 30 )
         	},
 
         	reveal_tile ( index ) {
