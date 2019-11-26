@@ -55,6 +55,7 @@
                 menu_items: [
                     {
                         'name' : 'MenuList',
+                        'slug' : 'Menu',
                         'description' : '',
                         'is_closeable' : true,
                         'is_open' : false,

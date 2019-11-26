@@ -1,7 +1,7 @@
 <template>
     <section class="window js-draggable" :class="{ 'focused' : this.this_menu_item.is_focused }" v-show="menu_item_data.is_open" @mousedown="toggle_focused">
         <div class="window__header js-draggable-trigger">
-            <h1 class="window__title">$://EddSmith.com/{{ menu_item_data.name }}</h1>
+            <h1 class="window__title">$://EddSmith.com/{{ menu_item_data.slug ? menu_item_data.slug : menu_item_data.name }}</h1>
             <span class="window__close" :v-if="menu_item_data.closeable" @click="close_window">✕</span>
         </div>
         <div class="window__main">

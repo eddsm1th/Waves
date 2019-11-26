@@ -3,7 +3,7 @@
 		<div class="icon__media">
 			<img src="">
 		</div>
-		<p class="icon__text">{{ menu_item_data.name }}</p>
+		<p class="icon__text">{{ menu_item_data.slug ? menu_item_data.slug : menu_item_data.name }}</p>
 	</li>
 </template>
 
