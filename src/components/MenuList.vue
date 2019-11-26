@@ -1,6 +1,6 @@
 <template>
     <div class="menu" @click="focus_selector()">
-        <p>Congratulations; you've reached the</p>
+        <p class="no-padding">Congratulations; you've reached the</p>
         <p>
             &nbsp;&nbsp;&nbsp;&nbsp;__&nbsp;&nbsp;___<br>
             &nbsp;&nbsp;&nbsp;/&nbsp;&nbsp;|/&nbsp;&nbsp;/__&nbsp;&nbsp;____&nbsp;&nbsp;__&nbsp;&nbsp;__<br>
@@ -77,4 +77,44 @@
 </script>
 
 <style lang="scss">
+    $base_line_height: 1.4;
+    $base_font_size: 20px;
+    .menu {
+        font-family: monospace;
+        font-weight: 400;
+        font-size: .6rem;
+        padding: .4rem;
+        background: #000;
+        color: #FFBDAB;
+
+        > * {
+            &:not( :last-child ):not( .no-padding ) {
+                margin-bottom: calc( .6rem * #{$base_line_height} );
+            } 
+        }
+
+        &__list {
+            list-style-type: none;
+            padding: calc( .6rem * #{$base_line_height} );
+        }
+
+        &__item {
+            &:not( :last-child ) {
+                margin-bottom: .6rem;
+            }    
+        }
+
+        &__selector {
+            background-color: transparent;
+            border: none;
+            color: #FFBDAB;
+            font-family: monospace;
+            font-weight: 400;
+            font-size: .6rem;
+
+            &:focus {
+                outline: none;
+            }
+        }
+    }
 </style>

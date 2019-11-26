@@ -140,43 +140,4 @@
         width: 100vw;
         overflow: hidden;
     }
-
-    .menu {
-        font-family: monospace;
-        font-weight: 400;
-        font-size: .6rem;
-        padding: .4rem;
-        background: #000;
-        color: #FFBDAB;
-
-        > * {
-            &:not( :last-child ) {
-                margin-bottom: calc( .6rem * #{$base_line_height} );
-            } 
-        }
-
-        &__list {
-            list-style-type: none;
-            padding: calc( .6rem * #{$base_line_height} );
-        }
-
-        &__item {
-            &:not( :last-child ) {
-                margin-bottom: .6rem;
-            }    
-        }
-
-        &__selector {
-            background-color: transparent;
-            border: none;
-            color: #FFBDAB;
-            font-family: monospace;
-            font-weight: 400;
-            font-size: .6rem;
-
-            &:focus {
-                outline: none;
-            }
-        }
-    }
 </style>

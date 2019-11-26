@@ -83,11 +83,6 @@
             box-shadow: $window_padding $window_padding rgba( 0, 0, 0, .5 );
         }
 
-        &--menu {
-            top: 20%;
-            left: 30%;
-        }
-
         &--fill {
             width: calc(100vw - 1px);
             height: calc(100vh - 1px);

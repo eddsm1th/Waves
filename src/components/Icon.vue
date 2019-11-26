@@ -34,7 +34,7 @@
 		flex-direction: column;
 		flex-wrap: wrap;
 		list-style-type: none;
-		max-height: 400px;
+		max-height: 500px;
 	}
 
 	.icon {
@@ -81,7 +81,7 @@
 			font-weight: 900;
 			color: #fff;
 			position: relative;
-			text-shadow: .1rem .1rem rgba( 0, 0, 0, .5 );
+			text-shadow: .06rem .06rem rgba( 0, 0, 0, .5 );
 		}
 	}
 </style>
