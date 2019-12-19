@@ -79,7 +79,7 @@
                         'name' : 'Settings',
                         'description' : 'You like jazz?',
                         'is_closeable' : true,
-                        'is_open' : false,
+                        'is_open' : true,
                         'is_focused' : false
                     },
                     {

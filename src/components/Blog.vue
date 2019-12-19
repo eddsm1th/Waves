@@ -174,7 +174,6 @@
         	},
 
             sort_blog_posts ( array ) {
-
                 if ( this.current_sort_option && this.current_sort_option.order !== 0 ) {
                     if ( this.current_sort_option.type === "name" ) {
                         if ( this.current_sort_option.order === 1 ) {

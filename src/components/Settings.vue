@@ -1,35 +1,7 @@
 <template>
     <div class="settings">
-        <div class="settings__header">
-            <div class="settings__header-media">
-                <img src="https://i.kym-cdn.com/photos/images/original/000/948/031/828.jpg">
-            </div>
-            <h2 class="settings__title">Change some fuckinnn settings</h2>
-        </div>
-        <div>
-            <h2 class="settings__title">Change some fuckinnn font sizes</h2>
-            <ul class="settings__font-size">
-                <li class="settings__font-size-item" v-for="font_size, id in this.font_sizes" @click="handle_new_font_selection( font_size )">
-                    <label>
-                        <input type="radio" :checked="font_size.checked">
-                        {{ font_size.name }}
-                    </label>
-                </li>
-            </ul>
-        </div>
-        <div>
-            <h2 class="settings__title">El chango backgroundo</h2>
-            <ul class="settings__wallpaper">
-                <li class="settings__wallpaper-item" v-for="wallpaper in this.wallpapers" @click="handle_new_wallpaper_selection( wallpaper )">
-                    <figure class="settings__wallpaper-item-media">
-                        <img src="https://i.kym-cdn.com/photos/images/original/000/948/031/828.jpg">
-                    </figure>
-                    <label>
-                        <input type="radio" :checked="wallpaper.checked">
-                        {{ wallpaper.name }}
-                    </label>
-                </li>
-            </ul>
+        <div class="settings__wallpaper-list">
+            
         </div>
     </div>
 </template>
@@ -124,110 +96,6 @@
         font-weight: 700;
         width: 16rem;
 
-        > * {
-            &:not( :last-child ) {
-                padding-bottom: 1rem;
-                margin-bottom: 1rem;
-                border-bottom: 1px solid darken( #C3C6CB, 20% );
-            }
-        }
 
-        &__header {
-            display: flex;
-            align-items: center;
-        }
-
-        &__header-media {
-            width: 3.5rem;
-            height: 3rem;
-            position: relative;
-            margin-right: .5rem;
-            border-top: 1px solid darken( #C3C6CB, 20% );
-            border-right: 1px solid darken( #C3C6CB, 20% );
-            border-bottom: 1px solid darken( #C3C6CB, 10% );
-            border-left: 1px solid darken( #C3C6CB, 10% );
-
-            img {
-                position: absolute;
-                top: 50%;
-                left: 50%;
-                transform: translate(-50%, -50%);
-                width: 100%;
-                height: 100%;
-                object-fit: cover;
-            }
-        }
-
-        &__title {
-            font-size: 1rem;
-        }
-
-        &__font-size, &__wallpaper {
-            margin-top: 1rem;
-            list-style-type: none;
-            display: flex;
-            flex-wrap: wrap;
-        }
-
-        &__font-size-item {
-            width: 33.333%;
-            padding-right: .5rem;
-
-            label {
-                font-size: .8rem;
-                display: flex;
-                align-items: center;
-                line-height: 1;
-                margin-top: .2rem;
-
-                input {
-                    margin-right: .2rem;
-                }
-            }
-        }
-
-        &__wallpaper {
-            margin-left: -.6rem;
-            margin-bottom: -.6rem;
-            width: 14rem;
-        }
-
-        &__wallpaper-item {
-            padding: 0 0 .6rem .6rem;
-            width: 50%;
-
-            label {
-                font-size: .8rem;
-                display: flex;
-                align-items: center;
-                line-height: 1;
-                margin-top: .2rem;
-
-                input {
-                    margin-right: .2rem;
-                }
-            }
-        }
-
-        &__wallpaper-item-media {
-            width: 100%;
-            height: 0;
-            padding-bottom: 56.25%;
-            position: relative;
-            overflow: hidden;
-
-            > img {
-                position: absolute;
-                top: 50%;
-                left: 50%;
-                transform: translate(-50%, -50%);
-                object-fit: cover;
-                width: 100%;
-                border-top: 1px solid darken( #C3C6CB, 20% );
-                border-right: 1px solid darken( #C3C6CB, 20% );
-                border-bottom: 1px solid darken( #C3C6CB, 10% );
-                border-left: 1px solid darken( #C3C6CB, 10% );
-            }
-        }
     }
 </style>

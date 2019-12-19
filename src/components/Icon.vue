@@ -38,9 +38,9 @@
 	}
 
 	.icon {
-		width: 4vw;
-		margin: 0 .5vw;
-		padding: .5vw 0;
+		width: 80px;
+		margin: 0 8px;
+		padding: 8px 0;
 		position: relative;
 
 		&:after {
