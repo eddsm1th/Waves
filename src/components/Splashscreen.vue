@@ -9,14 +9,11 @@
                     &nbsp;/&nbsp;/___/&nbsp;/_/&nbsp;/&nbsp;/_/&nbsp;/___/&nbsp;/&nbsp;/&nbsp;/&nbsp;/&nbsp;/&nbsp;/&nbsp;/&nbsp;/_/&nbsp;/&nbsp;/&nbsp;//&nbsp;/__/&nbsp;/_/&nbsp;/&nbsp;/&nbsp;/&nbsp;/&nbsp;/&nbsp;/<br>
                     /_____/\__,_/\__,_//____/_/&nbsp;/_/&nbsp;/_/_/\__/_/&nbsp;/_(_)___/\____/_/&nbsp;/_/&nbsp;/_/&nbsp;<br>
                 </span>
-                <span class="splash-screen__title">
-                    
-                </span>
             </div>
             <div class="splash-screen__loading" v-if="!this.loaded">
                 <!-- <span>Loading...</span> -->
-                <div class="splash-screen__loader" :class="{ 'blip_blip' : this.blip_blip }">
-                    <i class="splash-screen__tick" v-for="index in this.ticks" :class="{ 'showing' : check_if_tick_should_show( index ) }"></i>
+                <div :class="{ 'blip_blip' : this.blip_blip }">
+                    [<i class="splash-screen__char" v-for="index in this.ticks" v-html="check_if_tick_should_show( index ) ? '#' : '-'"></i>]
                 </div>
             </div>
         </div>
@@ -82,8 +79,7 @@
             },
 
             check_if_tick_should_show ( index ) {
-                if ( index <= this.current_tick ) return true;
-                return false;
+                return index <= this.current_tick;
             }
         },
     };
@@ -149,47 +145,14 @@
             text-transform: uppercase;
         }
 
-        &__loader {
-            position: relative;
-            display: flex;
-            padding: .2rem;
-
-            &:after, &:before {
-                content: "";
-                position: absolute;
-                top: 50%;
-                left: 50%;
-                width: 100%;
-                height: 100%;
-                transform: translate(-50%, -50%);
+        &__char {
+            &:not( :last-child ) {
+                margin-right: .1rem;
             }
+        }
 
-            &:after {
-                width: calc( 100% + .2rem );
-                border-left: .1rem solid $base_colour;
-                border-right: .1rem solid $base_colour;
-            }
-
-            &:before {
-                height: calc( 100% + .2rem );
-                border-top: .1rem solid $base_colour;
-                border-bottom: .1rem solid $base_colour;
-            }
-
-            &.blip_blip {
-                animation: .3s linear blip_blip, .3s ease-out .4s forwards blip_blip__fade_out;
-            }
-
-            @keyframes blip_blip__fade_out {
-                0% {
-                    opacity: 1;
-                    transform: translateY( 0 );
-                }
-                100% {
-                    opacity: 0;
-                    transform: translateY( 1rem );
-                }
-            }
+        .blip_blip {
+            animation: .3s linear blip_blip, .3s ease-out .4s forwards blip_blip__fade_out;
 
             @keyframes blip_blip {
                 0% {
@@ -217,21 +180,15 @@
                     visibility: visible;
                 }
             }
-        }
-
-        &__tick {
-            width: .6rem;
-            height: 1.2rem;
-            display: inline-block;
-            background-color: $base_colour;
-            opacity: 0;
-
-            &:not( :last-child ) {
-                margin-right: .2rem;
-            }
-
-            &.showing {
-                opacity: 1;
+            @keyframes blip_blip__fade_out {
+                0% {
+                    opacity: 1;
+                    transform: translateY( 0 );
+                }
+                100% {
+                    opacity: 0;
+                    transform: translateY( 1rem );
+                }
             }
         }
     }
