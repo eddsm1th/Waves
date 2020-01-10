@@ -30,7 +30,6 @@
                 ticks: 12,
                 current_tick: 1,
                 complete_tick_time: 1000,
-                time_per_tick: null,
                 blip_blip: false,
                 title_fade_out: false,
                 fully_loaded: false,
@@ -43,8 +42,14 @@
         },
 
         mounted () {
-            this.time_per_tick = this.complete_tick_time / this.ticks;
+            
             this.uptick();
+        },
+
+        computed: {
+            time_per_tick () {
+                return this.complete_tick_time / this.ticks;
+            } 
         },
 
         methods: {
@@ -100,6 +105,7 @@
 
         &.loaded {
             animation: .3s linear forwards loaded;
+            
             @keyframes fully_loaded {
                 0% {
                     opacity: 1;

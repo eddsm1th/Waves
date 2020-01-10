@@ -2,7 +2,7 @@
     <main>
         <splashscreen></splashscreen>
 
-        <section class="window window--fill" >
+        <section class="window window--fill">
             <div class="window__header">
                 <h1 class="window__title">$://EddSmith.com/Desktop</h1>
 
