@@ -66,13 +66,13 @@
                         'is_open' : false,
                         'is_focused' : false
                     },
-                    {
-                        'name' : 'Contact',
-                        'description' : 'Slide into the DMs',
-                        'is_closeable' : true,
-                        'is_open' : false,
-                        'is_focused' : false
-                    },
+                    // {
+                    //     'name' : 'Contact',
+                    //     'description' : 'Slide into the DMs',
+                    //     'is_closeable' : true,
+                    //     'is_open' : false,
+                    //     'is_focused' : false
+                    // },
                     {
                         'name' : 'Settings',
                         'description' : 'You like jazz?',

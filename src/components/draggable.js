@@ -5,7 +5,7 @@
         } );    
     }
 
-    export function apply_drag_functionality ( draggable_box ) {
+    function apply_drag_functionality ( draggable_box ) {
         const draggable_box_trigger = draggable_box.classList.contains('js-draggable-trigger') ? draggable_box : draggable_box.querySelector('.js-draggable-trigger');
 
         if ( draggable_box_trigger ) {
@@ -29,7 +29,7 @@
                     new_x = event.clientX - starting_x;
                     new_y = event.clientY - starting_y;
 
-                    draggable_box.style.transform = `translate(${ new_x + parseInt( draggable_box.dataset.prevX ) }px, ${ new_y + parseInt( draggable_box.dataset.prevY ) }px)`;
+                    draggable_box.style.transform = `translate(${ new_x + parseInt( draggable_box.dataset.prevX ) }px, ${ new_y + parseInt( draggable_box.dataset.prevY ) }px) scale(1)`;
                 }
             } );
 

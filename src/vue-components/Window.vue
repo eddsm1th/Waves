@@ -85,17 +85,6 @@
             height: 100%;
         }
 
-        // &:not( &--fill ) {
-        //     opacity: 0;
-        //     transform-origin: 50% 100%;
-        //     transform: scale(0);
-        //     transition: .15s all ease;
-        // }
-        // &:not( &--fill ).active {
-        //     opacity: 1;
-        //     transform: scale(1);
-        // }
-
         &:not( &--fill ) {
             box-shadow: $window_padding $window_padding rgba( 0, 0, 0, .5 );
         }
