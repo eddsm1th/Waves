@@ -1,6 +1,6 @@
 <template>
     <main>
-        <splashscreen></splashscreen>
+        <!-- <splashscreen></splashscreen> -->
 
         <section class="window window--fill">
             <div class="window__header">
@@ -58,7 +58,7 @@
                         'slug' : 'Menu',
                         'description' : '',
                         'is_closeable' : true,
-                        'is_open' : true,
+                        // 'is_open' : true,
                         'is_focused' : false
                     },
                     {
@@ -121,16 +121,40 @@
     }
 
     html {
-        font-size: $base_font_size;
+        font-size: $base_font_size * .6;
         line-height: $base_line_height;
         font-family: calibri;
 
-        &.fs-Small {
+        @media ( min-width: 768px ) {
             font-size: $base_font_size * .8;
         }
 
+        @media ( min-width: 1024px ) {
+            font-size: $base_font_size;
+        }
+
+        &.fs-Small {
+            font-size: ( $base_font_size * .8 ) * .6;
+
+            @media ( min-width: 768px ) {
+                font-size: ( $base_font_size * .8 ) * .8;
+            }
+
+            @media ( min-width: 1024px ) {
+                font-size: $base_font_size * .8;
+            }
+        }
+
         &.fs-Large {
-            font-size: $base_font_size * 1.2;
+            font-size: ( $base_font_size * 1.2 ) * .6;
+
+            @media ( min-width: 768px ) {
+                font-size: ( $base_font_size * 1.2 ) * .8;
+            }
+
+            @media ( min-width: 1024px ) {
+                font-size: $base_font_size * 1.2;
+            }
         }
     }
 
