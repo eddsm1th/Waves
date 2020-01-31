@@ -43,18 +43,15 @@
 		padding: 8px 0;
 		position: relative;
 
-		&:after {
-			position: absolute;
-			top: 0;
-			left: 0;
-			width: 100%;
-			height: 100%;
-			border: 1px dashed rgba( 0, 0, 0, .5 );
-		}
-
 		&:active {
 			&:after {
 				content: "";
+				position: absolute;
+				top: 0;
+				left: 0;
+				width: 100%;
+				height: 100%;
+				border: 1px dashed rgba( 0, 0, 0, .5 );
 			}
 		}
 
@@ -68,9 +65,9 @@
 
 		&__media {
 			position: relative;
-			height: 3vw;
-			width: 3vw;
-			margin: 0 .5rem;
+			height: 64px;
+			width: 64px;
+			margin: 0 8px; 
 			background-color: deeppink;
 		}
 

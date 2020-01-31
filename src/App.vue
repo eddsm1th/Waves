@@ -25,10 +25,12 @@
 </template>
 
 <script>
-    import Window from './components/Window.vue';
-    import Splashscreen from './components/Splashscreen.vue';
-    import Headerutilities from './components/HeaderUtilities.vue';
-    import Icon from './components/Icon.vue';
+    import Window from './vue-components/Window.vue';
+    import Splashscreen from './vue-components/Splashscreen.vue';
+    import Headerutilities from './vue-components/HeaderUtilities.vue';
+    import Icon from './vue-components/Icon.vue';
+
+    import { apply_drag_to_initial_components } from './components/draggable.js';
 
     export default {
         name: 'app',
@@ -38,10 +40,6 @@
             Splashscreen,
             Headerutilities,
             Icon,
-        },
-
-        methods: {
-            
         },
 
         computed: {
@@ -58,7 +56,7 @@
                         'slug' : 'Menu',
                         'description' : '',
                         'is_closeable' : true,
-                        // 'is_open' : true,
+                        'is_open' : true,
                         'is_focused' : false
                     },
                     {
@@ -107,6 +105,10 @@
                 menu_selector: null,
             }
         },
+
+        mounted () {
+            apply_drag_to_initial_components();
+        }
     };
 </script>
 
