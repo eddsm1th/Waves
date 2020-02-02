@@ -38,9 +38,9 @@
 	}
 
 	.icon {
-		width: 80px;
-		margin: 0 8px;
-		padding: 8px 0;
+		width: 4rem;
+		margin: 0 .4rem;
+		padding: .4rem 0;
 		position: relative;
 
 		&:after {
@@ -68,10 +68,11 @@
 
 		&__media {
 			position: relative;
-			height: 3vw;
-			width: 3vw;
+			width: calc( 100% - 1rem );
+			height: 0;
 			margin: 0 .5rem;
 			background-color: deeppink;
+			padding-bottom: calc( 100% - 1rem);
 		}
 
 		&__text {

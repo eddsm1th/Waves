@@ -1,8 +1,15 @@
 <template>
     <div class="settings">
-        <div class="settings__wallpaper-list">
-            
-        </div>
+        <ul class="settings__list">
+            <li class="settings__list-item" v-for="wallpaper in wallpapers" :class="{ 'active' : wallpaper.checked}" @click="handle_new_wallpaper_selection( wallpaper )">
+                <span>{{ wallpaper.name }}</span>
+            </li>
+        </ul>
+        <ul class="settings__list">
+            <li class="settings__list-item" v-for="font_size in font_sizes" :class="{ 'active' : font_size.checked}" @click="handle_new_font_selection( font_size )">
+                <span>{{ font_size.name }}</span>
+            </li>
+        </ul>
     </div>
 </template>
 
@@ -97,5 +104,19 @@
         width: 16rem;
 
 
+        &__list {
+            list-style: none;
+            background-color: #fff;
+            border: 1px solid #000;
+        }
+
+        &__list-item {
+            padding: .1rem .2rem;
+            font-size: .6rem;
+
+            &:active, &.active {
+                background-color: #ededed;
+            }
+        }
     }
 </style>

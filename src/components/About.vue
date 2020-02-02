@@ -8,9 +8,15 @@
 
         data () {
         	return {
-        		content: `this is some testing
+        		content: `hello, i'm edd.
 
-can i have line break in here`
+i'm a front end web develop based in derbyshrie in the uk.
+
+i enjoy making websites that are pleasing to the eye and are a step out of the norm.
+
+currently i am working full time, but feel free to say hello or even just recommend me a song...
+
+:)`
         	}
         }
     };

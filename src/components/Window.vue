@@ -35,6 +35,7 @@
         props: {
             menu_item_data: Object,
             menu_items: Array,
+            menu_item_stack: Array,
         },
 
         computed: {
@@ -132,6 +133,10 @@
         }
 
         &__main { position: relative; }
-        &__main & { position: absolute; }
+        &__main & {
+            position: absolute;
+            top: 10%;
+            left: 20%;
+        }
     }
 </style>

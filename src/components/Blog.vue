@@ -1,7 +1,7 @@
 <template>
     <div class="blog-archive">
     	<div class="blog-archive__header">
-    		<span class="blog-archive__header-title">$://EddSmith.com/D:/Documents/Blog</span>
+    		<span class="blog-archive__header-title">$://EddSmith.com/Documents/Blog</span>
     		<input class="blog-archive__search" v-model="searched_query" placeholder="Search blogs...">
     	</div>
     	<table class="blog-archive__main">
@@ -227,7 +227,7 @@
 <style lang="scss">
 	.blog-archive {
 		padding: .4rem;
-		background-color: #C3C6CB;
+		background-color: #ededed;
 		font-size: .6rem;
         min-width: 25vw;
         border: 1px solid #000;
