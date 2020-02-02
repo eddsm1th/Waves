@@ -1,8 +1,11 @@
 <template>
-    <section class="window js-draggable" :class="{ 'focused' : this.this_menu_item.is_focused }" v-show="menu_item_data.is_open" @mousedown="toggle_focused">
+    <section class="window js-draggable" :class="{ 'focused' : this.this_menu_item.is_focused, 'fullscreen' : this.is_fullscreen }" v-show="menu_item_data.is_open" @mousedown="toggle_focused">
         <div class="window__header js-draggable-trigger">
             <h1 class="window__title">$://EddSmith.com/{{ menu_item_data.slug ? menu_item_data.slug : menu_item_data.name }}</h1>
-            <span class="window__close" :v-if="menu_item_data.closeable" @click="close_window">✕</span>
+            <ul class="window__utilities">
+                <li class="window__fullscreen" @click="is_fullscreen = !is_fullscreen"></li>
+                <li class="window__close" :v-if="menu_item_data.closeable" @click="close_window">✕</li>
+            </ul>
         </div>
         <div class="window__main">
             <component :is="menu_item_data.name" :menu_item_data="menu_item_data" :menu_items="menu_items"/>
@@ -38,6 +41,12 @@
             menu_item_stack: Array,
         },
 
+        data () {
+            return {
+                is_fullscreen: false,
+            }
+        },
+
         computed: {
             this_menu_item () {
                 return this.menu_items.find( menu_item => menu_item.name.toLowerCase() === this.menu_item_data.name.toLowerCase() );
@@ -69,16 +78,13 @@
             z-index: 1;
         }
 
-        // &:not( &--fill ) {
-        //     opacity: 0;
-        //     transform-origin: 50% 100%;
-        //     transform: scale(0);
-        //     transition: .15s all ease;
-        // }
-        // &:not( &--fill ).active {
-        //     opacity: 1;
-        //     transform: scale(1);
-        // }
+        &.fullscreen {
+            transform: translate( 0, 0 ) !important;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
 
         &:not( &--fill ) {
             box-shadow: $window_padding $window_padding rgba( 0, 0, 0, .5 );
@@ -100,6 +106,11 @@
             line-height: 1;
         }
 
+        &__utilities {
+            list-style: none;
+            display: flex;
+        }
+
         &__title {
             padding: $window_padding;
             font-family: monospace;
@@ -113,7 +124,21 @@
             padding: $window_padding;
             font-family: monospace;
             font-weight: 900;
-            font-size: .6rem;
+            font-size: .8rem;
+            line-height: .76;
+        }
+
+        &__fullscreen {
+            margin: $window_padding;
+            height: .6rem;
+            width: .6rem;
+            border: 1px solid black;
+            border-top: .15rem solid black;
+
+            svg {
+                height: 8px;
+                width: 8px;
+            }
         }
 
         &__main {

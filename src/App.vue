@@ -1,6 +1,6 @@
 <template>
     <main>
-        <splashscreen></splashscreen>
+        <!-- <splashscreen></splashscreen> -->
 
         <section class="window window--fill">
             <div class="window__header">
@@ -25,10 +25,12 @@
 </template>
 
 <script>
-    import Window from './components/Window.vue';
-    import Splashscreen from './components/Splashscreen.vue';
-    import Headerutilities from './components/HeaderUtilities.vue';
-    import Icon from './components/Icon.vue';
+    import Window from './vue-components/Window.vue';
+    import Splashscreen from './vue-components/Splashscreen.vue';
+    import Headerutilities from './vue-components/HeaderUtilities.vue';
+    import Icon from './vue-components/Icon.vue';
+
+    import { apply_drag_to_initial_components } from './components/draggable.js';
 
     export default {
         name: 'app',
@@ -67,7 +69,7 @@
                         'slug' : 'Menu',
                         'description' : '',
                         'is_closeable' : true,
-                        'is_open' : false,
+                        'is_open' : true,
                         'is_focused' : false
                     },
                     {
@@ -78,6 +80,7 @@
                         'is_open' : false,
                         'is_focused' : false
                     },
+<<<<<<< HEAD
                     {
                         'id' : 2,
                         'name' : 'Contact',
@@ -86,12 +89,21 @@
                         'is_open' : false,
                         'is_focused' : false
                     },
+=======
+                    // {
+                    //     'name' : 'Contact',
+                    //     'description' : 'Slide into the DMs',
+                    //     'is_closeable' : true,
+                    //     'is_open' : false,
+                    //     'is_focused' : false
+                    // },
+>>>>>>> 6b855c918066c3b9fb5b1872aa7d9ad84b7ede64
                     {
                         'id' : 3,
                         'name' : 'Settings',
                         'description' : 'You like jazz?',
                         'is_closeable' : true,
-                        'is_open' : true,
+                        'is_open' : false,
                         'is_focused' : false
                     },
                     {
@@ -123,6 +135,10 @@
                 menu_item_stack: [],
             }
         },
+
+        mounted () {
+            apply_drag_to_initial_components();
+        }
     };
 </script>
 
@@ -137,16 +153,40 @@
     }
 
     html {
-        font-size: $base_font_size;
+        font-size: $base_font_size * .6;
         line-height: $base_line_height;
         font-family: calibri;
 
-        &.fs-Small {
+        @media ( min-width: 768px ) {
             font-size: $base_font_size * .8;
         }
 
+        @media ( min-width: 1024px ) {
+            font-size: $base_font_size;
+        }
+
+        &.fs-Small {
+            font-size: ( $base_font_size * .8 ) * .6;
+
+            @media ( min-width: 768px ) {
+                font-size: ( $base_font_size * .8 ) * .8;
+            }
+
+            @media ( min-width: 1024px ) {
+                font-size: $base_font_size * .8;
+            }
+        }
+
         &.fs-Large {
-            font-size: $base_font_size * 1.2;
+            font-size: ( $base_font_size * 1.2 ) * .6;
+
+            @media ( min-width: 768px ) {
+                font-size: ( $base_font_size * 1.2 ) * .8;
+            }
+
+            @media ( min-width: 1024px ) {
+                font-size: $base_font_size * 1.2;
+            }
         }
     }
 
