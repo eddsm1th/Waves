@@ -80,16 +80,6 @@
                         'is_open' : false,
                         'is_focused' : false
                     },
-<<<<<<< HEAD
-                    {
-                        'id' : 2,
-                        'name' : 'Contact',
-                        'description' : 'Slide into the DMs',
-                        'is_closeable' : true,
-                        'is_open' : false,
-                        'is_focused' : false
-                    },
-=======
                     // {
                     //     'name' : 'Contact',
                     //     'description' : 'Slide into the DMs',
@@ -97,7 +87,6 @@
                     //     'is_open' : false,
                     //     'is_focused' : false
                     // },
->>>>>>> 6b855c918066c3b9fb5b1872aa7d9ad84b7ede64
                     {
                         'id' : 3,
                         'name' : 'Settings',
