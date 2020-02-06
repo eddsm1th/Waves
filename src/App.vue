@@ -142,12 +142,12 @@
     }
 
     html {
-        font-size: $base_font_size * .6;
+        font-size: $base_font_size * .8;
         line-height: $base_line_height;
         font-family: calibri;
 
         @media ( min-width: 768px ) {
-            font-size: $base_font_size * .8;
+            font-size: $base_font_size * .9;
         }
 
         @media ( min-width: 1024px ) {
@@ -155,10 +155,10 @@
         }
 
         &.fs-Small {
-            font-size: ( $base_font_size * .8 ) * .6;
+            font-size: ( $base_font_size * .8 ) * .8;
 
             @media ( min-width: 768px ) {
-                font-size: ( $base_font_size * .8 ) * .8;
+                font-size: ( $base_font_size * .8 ) * .9;
             }
 
             @media ( min-width: 1024px ) {
@@ -167,10 +167,10 @@
         }
 
         &.fs-Large {
-            font-size: ( $base_font_size * 1.2 ) * .6;
+            font-size: ( $base_font_size * 1.2 ) * .8;
 
             @media ( min-width: 768px ) {
-                font-size: ( $base_font_size * 1.2 ) * .8;
+                font-size: ( $base_font_size * 1.2 ) * .9;
             }
 
             @media ( min-width: 1024px ) {

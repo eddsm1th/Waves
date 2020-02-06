@@ -1,3 +1,13 @@
+
+<!-- 
+
+    TODO // PHASE 2:
+        Make this like a web browser with different tabs for different pages.
+
+        Have each tab be a different about page style
+
+ -->
+
 <template>
     <textarea class="about" :value="this.content"></textarea>
 </template>
@@ -8,9 +18,9 @@
 
         data () {
         	return {
-        		content: `hello, i'm edd.
+        		content: `what up; i'm edd.
 
-i'm a front end web develop based in derbyshrie in the uk.
+i'm a front end web develop based in derbyshire in the uk.
 
 i enjoy making websites that are pleasing to the eye and are a step out of the norm.
 

@@ -60,6 +60,7 @@
             svg {
                 width: .6rem;
                 height: .6rem;
+                display: block;
             }
         }
 

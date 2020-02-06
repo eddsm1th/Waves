@@ -73,6 +73,8 @@
     .window {
         border: 1px solid #000;
         background-color: $base_colour;
+        display: flex;
+        flex-direction: column;
 
         &.focused {
             z-index: 1;
@@ -80,8 +82,8 @@
 
         &.fullscreen {
             transform: translate( 0, 0 ) !important;
-            top: 0;
-            left: 0;
+            top: 0 !important;
+            left: 0 !important;
             width: 100%;
             height: 100%;
         }
@@ -145,6 +147,7 @@
             padding: 0 $window_padding $window_padding;
             background-size: cover;
             background-position: center;
+            flex: 1;
 
             &--no-padding {
                 padding: 0;
@@ -162,6 +165,12 @@
             position: absolute;
             top: 10%;
             left: 20%;
+
+            &__main {
+                > * {
+                    height: 100%;
+                }
+            }
         }
     }
 </style>

@@ -54,10 +54,10 @@
         data () {
         	return {
         		minesweeper_config : {
-					width : 24,
+					width : 12,
 					height: 16,
 					// bomb_count : Math.floor( Math.random() * 45 ) + 15,
-					bomb_count : 64,
+					bomb_count : 32,
 				},
 				bombs_coordinates : [],
                 placed_flags : [],
@@ -215,9 +215,9 @@
         	show_all_bombs ( current_bomb_index = 0 ) {
                 document.querySelector(`#ms-tile-${ this.bombs_coordinates[ current_bomb_index ] }`).classList.add('bomb');
         		
-                setTimeout( function () {
-                    if ( current_bomb_index + 1 < this.minesweeper_config.bomb_count ) this.show_all_bombs( current_bomb_index + 1 );  
-                }.bind( this ), 30 )
+                // setTimeout( function () {
+                if ( current_bomb_index + 1 < this.minesweeper_config.bomb_count ) this.show_all_bombs( current_bomb_index + 1 );  
+                // }.bind( this ), 30 )
         	},
 
         	reveal_tile ( index ) {
@@ -344,7 +344,7 @@
 		}
 
         &__leaderboard {
-            width: 24rem;
+            width: 18rem;
             padding: .4rem;
             border-top: 1px solid darken( #C3C6CB, 10% );
             border-right: 1px solid darken( #C3C6CB, 20% );
@@ -389,7 +389,7 @@
 			list-style-type: none;
 			display: flex;
 			flex-wrap: wrap;
-			width: 36rem;
+			width: 18rem;
 			position: relative;
                                              
            &:before {

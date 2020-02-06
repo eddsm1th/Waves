@@ -34,13 +34,13 @@
 		flex-direction: column;
 		flex-wrap: wrap;
 		list-style-type: none;
-		max-height: 500px;
+		max-height: 80%;
 	}
 
 	.icon {
-		width: 4rem;
-		margin: 0 .4rem;
-		padding: .4rem 0;
+		width: 80px;
+		margin: 0 8px;
+		padding: 8px 0;
 		position: relative;
 
 		&:active {
