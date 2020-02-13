@@ -21,6 +21,7 @@
                     'minutes' : null,
                     'hours' : null,
                 },
+                bout_dat_time: false,
         	}
         },
 
@@ -32,6 +33,7 @@
             set_times ( date = new Date() ) {
                 this.date_time.minutes = date.getMinutes();
                 this.date_time.hours = date.getHours();
+                this.bout_dat_time = this.date_time.minutes == 20 && this.date_time.hours == 16;
 
                 setTimeout( function () {
                     this.set_times();

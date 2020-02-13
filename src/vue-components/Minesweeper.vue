@@ -301,7 +301,7 @@
         			const 	new_bomb_index = Math.ceil( Math.random() * ( this.minesweeper_config.width * this.minesweeper_config.height ) );
 
         			if ( this.bombs_coordinates.indexOf( new_bomb_index ) === -1 ) {
-        				this.bombs_coordinates.push( new_bomb_index );
+        				this.place_bomb_at( new_bomb_index )
         				i++;
         			}
         		}
@@ -309,7 +309,11 @@
                 this.bombs_coordinates.sort( function ( a, b ) {
                     return a > b ? 1 : a < b ? -1 : 0;
                 } );
-        	}
+        	},
+
+            place_bomb_at ( index ) {
+                this.bombs_coordinates.push( new_bomb_index );
+            }
         }
     };
 </script>

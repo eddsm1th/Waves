@@ -37,8 +37,7 @@
                 can_be_dragged = false;
                 draggable_box.setAttribute('data-prev-x', new_x + parseInt( draggable_box.dataset.prevX ) );
                 draggable_box.setAttribute('data-prev-y', new_y + parseInt( draggable_box.dataset.prevY ) );
-                new_x = 0;
-                new_y = 0;
+                new_x = new_y = 0;
             } );
         }
     }
