@@ -3,7 +3,7 @@
         <div class="window__header js-draggable-trigger">
             <h1 class="window__title">$://EddSmith.com/{{ menu_item_data.slug ? menu_item_data.slug : menu_item_data.name }}</h1>
             <ul class="window__utilities">
-                <li class="window__fullscreen" @click="is_fullscreen = !is_fullscreen"></li>
+                <!-- <li class="window__fullscreen" @click="is_fullscreen = !is_fullscreen"></li> -->
                 <li class="window__close" :v-if="menu_item_data.closeable" @click="close_window">✕</li>
             </ul>
         </div>
