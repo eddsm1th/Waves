@@ -5,7 +5,7 @@
         } );    
     }
 
-    function apply_drag_functionality ( draggable_box ) {
+    export function apply_drag_functionality ( draggable_box ) {
         const draggable_box_trigger = draggable_box.classList.contains('js-draggable-trigger') ? draggable_box : draggable_box.querySelector('.js-draggable-trigger');
 
         if ( draggable_box_trigger ) {

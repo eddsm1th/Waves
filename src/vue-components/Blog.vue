@@ -32,7 +32,7 @@
     	</table>
 
         <portal to="single-blog-post">
-            <section class="window js-draggable" v-show="this.open_blog_post">
+            <section class="window js-blog-post" v-show="this.open_blog_post">
                 <div class="window__header js-draggable-trigger">
                     <h1 class="window__title">$://EddSmith.com/BlogPost</h1>
                     <span class="window__close" @click="close_window">✕</span>
@@ -53,6 +53,8 @@
 </template>
 
 <script>
+    import { apply_drag_functionality } from './../components/draggable.js';
+
     export default {
         name: 'blog',
 
@@ -94,7 +96,8 @@
                         'type' : 'date',
                         'order' : 0
                     }
-                ]
+                ],
+                blog_post_has_been_opened: false,
         	}
         },
 
@@ -125,7 +128,17 @@
         		if ( this.open_blog_post ) this.open_blog_post.is_open = false;
         	
         		blog_post.is_open = true;
+
+                this.apply_drag_functionality_to_blog_post();
         	},
+
+            apply_drag_functionality_to_blog_post () {
+                if ( !this.blog_post_has_been_opened ) {
+                    this.blog_post_has_been_opened = true;
+
+                    apply_drag_functionality( document.querySelector('.js-blog-post') );
+                }
+            },
 
         	close_window () {
         		this.open_blog_post.is_open = false;
