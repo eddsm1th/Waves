@@ -312,7 +312,7 @@
         	},
 
             place_bomb_at ( index ) {
-                this.bombs_coordinates.push( new_bomb_index );
+                this.bombs_coordinates.push( index );
             }
         }
     };

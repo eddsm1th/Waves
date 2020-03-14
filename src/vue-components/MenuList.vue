@@ -86,6 +86,7 @@
         padding: .4rem;
         background: #000;
         color: #FFBDAB;
+        user-select: none;
 
         > * {
             &:not( :last-child ):not( .no-padding ) {
