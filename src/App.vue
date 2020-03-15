@@ -1,6 +1,6 @@
 <template>
     <main>
-        <splashscreen></splashscreen>
+        <!-- <splashscreen></splashscreen> -->
 
         <section class="window window--fill">
             <div class="window__header js-draggable-header-offset">

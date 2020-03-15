@@ -34,14 +34,13 @@
                     new_x = event.clientX - starting_x;
                     new_y = event.clientY - starting_y;
 
-
                     let true_transform_x = new_x + parseInt( draggable_box.dataset.prevX ),
                         true_transform_y = new_y + parseInt( draggable_box.dataset.prevY );
 
                     true_transform_x = check_if_box_at_horizontal_bounds( draggable_box, true_transform_x );
                     true_transform_y = check_if_box_at_vertical_bounds( draggable_box, true_transform_y );
 
-                    draggable_box.style.transform = `translate(${ true_transform_x }px, ${ true_transform_y }px) scale(1)`;
+                    draggable_box.style.transform = `translate3d(${ true_transform_x }px, ${ true_transform_y }px, 0)`;
                 }
             } );
 
