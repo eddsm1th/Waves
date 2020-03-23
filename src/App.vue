@@ -21,6 +21,8 @@
                 
             </div>
         </section>
+
+        <i class="crt"></i>
     </main>
 </template>
 
@@ -184,5 +186,30 @@
         height: 100vh;
         width: 100vw;
         overflow: hidden;
+    }
+
+    .crt {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 30px;
+        // background-color: rgba(255, 255, 255, .2);
+        background-image: linear-gradient(rgba(255, 255, 255, 0), rgba(255, 255, 255, .08));
+        pointer-event: none;
+        z-index: 9999;
+        animation-name: crt;
+        animation-duration: 5s;
+        animation-timing-function: linear;
+        animation-iteration-count: infinite;
+    }
+
+    @keyframes crt {
+        0% {
+            top: -30px;
+        }
+        100% {
+            top: 100%;
+        }
     }
 </style>
