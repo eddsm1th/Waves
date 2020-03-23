@@ -8,7 +8,7 @@
             &nbsp;/&nbsp;/&nbsp;&nbsp;/&nbsp;/&nbsp;&nbsp;__/&nbsp;/&nbsp;/&nbsp;/&nbsp;/_/&nbsp;/<br>
             /_/&nbsp;&nbsp;/_/\___/_/&nbsp;/_/\__,_/<br>
         </p>
-        <p>Let's see if you can select an option...</p>
+        <p>Select an options from the list below...</p>
         <ul class="menu__list">
             <li class="menu__item" v-for="menu_item in menu_items" v-if="menu_item.name !== 'MenuList'">
                 '{{ menu_item.name }}'
@@ -86,6 +86,7 @@
         padding: .4rem;
         background: #000;
         color: #FFBDAB;
+        user-select: none;
 
         > * {
             &:not( :last-child ):not( .no-padding ) {

@@ -3,7 +3,7 @@
         <splashscreen></splashscreen>
 
         <section class="window window--fill">
-            <div class="window__header">
+            <div class="window__header js-draggable-header-offset">
                 <h1 class="window__title">$://EddSmith.com/Desktop</h1>
 
                 <headerutilities></headerutilities>
