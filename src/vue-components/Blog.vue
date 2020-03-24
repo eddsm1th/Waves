@@ -64,7 +64,7 @@
 </template>
 
 <script>
-    import { apply_drag_functionality } from './../components/draggable.js';
+    import { apply_drag_functionality } from './../assets/js/draggable.js';
 
     export default {
         name: 'blog',

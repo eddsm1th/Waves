@@ -34,6 +34,8 @@
 </template>
 
 <script>
+    import * as firebase from "firebase";
+
     var firebaseConfig = {
         apiKey: "AIzaSyCqKaMx2MaOHKrSm2V2HmzCR60fhwtdcfg",
         authDomain: "waves-69ff1.firebaseapp.com",
@@ -148,22 +150,19 @@
             },
 
             reset () {
-                this.game_over = this.winner = false;
+                this.game_over = this.winner = this.showing_leaderboard = this.can_submit_score = false;
                 this.placed_flags = [];
                 this.populate_grid_with_bombs();
                 this.tiles.forEach( function ( tile ) {
                     tile.classList = 'minesweeper__tile'
                 } );
                 this.reset_timer();
-                this.can_submit_score = false;
-                if ( this.showing_leaderboard ) this.showing_leaderboard = false;
             },
 
             timer () {
                 setTimeout( function () {
-                    if ( !this.game_over && !this.winner ) {
-                        this.current_time ++;
-                    }
+                    if ( !this.game_over && !this.winner ) this.current_time ++;
+                    
                     this.timer();
                 }.bind( this ), 1000 );
             },
@@ -295,14 +294,13 @@
         	populate_grid_with_bombs () {
                 this.bombs_coordinates = [];
                 
-        		let i = 0;
-
-        		while ( i < this.minesweeper_config.bomb_count ) {
+        		for ( let i = 0; i < this.minesweeper_config.bomb_count; i ) {
         			const 	new_bomb_index = Math.ceil( Math.random() * ( this.minesweeper_config.width * this.minesweeper_config.height ) );
 
         			if ( this.bombs_coordinates.indexOf( new_bomb_index ) === -1 ) {
-        				this.place_bomb_at( new_bomb_index )
-        				i++;
+        				this.place_bomb_at( new_bomb_index );
+
+        				i ++;
         			}
         		}
 

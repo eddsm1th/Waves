@@ -32,7 +32,7 @@
     import Headerutilities from './vue-components/HeaderUtilities.vue';
     import Icon from './vue-components/Icon.vue';
 
-    import { apply_drag_to_initial_components } from './components/draggable.js';
+    import { apply_drag_to_initial_components } from './assets/js/draggable.js';
 
     export default {
         name: 'app',
