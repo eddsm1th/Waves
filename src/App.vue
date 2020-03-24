@@ -72,7 +72,8 @@
                         'description' : '',
                         'is_closeable' : true,
                         'is_open' : true,
-                        'is_focused' : false
+                        'is_focused' : false,
+                        'hide_from_menu' : true
                     },
                     {
                         'id' : 1,
@@ -120,6 +121,15 @@
                         'is_closeable' : true,
                         'is_open' : false,
                         'is_focused' : false
+                    },
+                    {
+                        'id' : 7,
+                        'name' : 'Wednesday',
+                        'description' : 'It is Wednesday, my dudes',
+                        'is_closeable' : true,
+                        'is_open' : false,
+                        'is_focused' : false,
+                        'hide_from_menu' : true
                     },
                 ],
                 menu_selector: null,

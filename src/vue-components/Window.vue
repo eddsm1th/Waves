@@ -21,6 +21,7 @@
     import Blog from './Blog';
     import Radio from './Radio';
     import MenuList from './MenuList';
+    import Wednesday from './Wednesday';
 
     export default {
         name: 'window',
@@ -33,6 +34,7 @@
             Blog,
             Radio,
             MenuList,
+            Wednesday
         },
 
         props: {
