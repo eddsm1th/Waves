@@ -72,7 +72,8 @@
                         'description' : '',
                         'is_closeable' : true,
                         'is_open' : true,
-                        'is_focused' : false
+                        'is_focused' : false,
+                        'hide_from_menu' : true
                     },
                     {
                         'id' : 1,
@@ -121,6 +122,15 @@
                         'is_open' : false,
                         'is_focused' : false
                     },
+                    {
+                        'id' : 7,
+                        'name' : 'Wednesday',
+                        'description' : 'It is Wednesday, my dudes',
+                        'is_closeable' : true,
+                        'is_open' : false,
+                        'is_focused' : false,
+                        'hide_from_menu' : true
+                    },
                 ],
                 menu_selector: null,
                 menu_item_stack: [],
@@ -144,40 +154,43 @@
     }
 
     html {
-        font-size: $base_font_size * .8;
         line-height: $base_line_height;
         font-family: calibri;
+        font-size: $base_font_size;
+        // font-size: $base_font_size * .8;
 
-        @media ( min-width: 768px ) {
-            font-size: $base_font_size * .9;
-        }
+        // @media ( min-width: 768px ) {
+        //     font-size: $base_font_size * .9;
+        // }
 
-        @media ( min-width: 1024px ) {
-            font-size: $base_font_size;
-        }
+        // @media ( min-width: 1024px ) {
+        //     font-size: $base_font_size;
+        // }
 
         &.fs-Small {
-            font-size: ( $base_font_size * .8 ) * .8;
+            font-size: $base_font_size * .8;
+            // font-size: ( $base_font_size * .8 ) * .8;
 
-            @media ( min-width: 768px ) {
-                font-size: ( $base_font_size * .8 ) * .9;
-            }
+            // @media ( min-width: 768px ) {
+            //     font-size: ( $base_font_size * .8 ) * .9;
+            // }
 
-            @media ( min-width: 1024px ) {
-                font-size: $base_font_size * .8;
-            }
+            // @media ( min-width: 1024px ) {
+            //     font-size: $base_font_size * .8;
+            // }
         }
 
         &.fs-Large {
-            font-size: ( $base_font_size * 1.2 ) * .8;
+            font-size: $base_font_size * 1.2;
+            // font-size: ( $base_font_size * 1.2 ) * .8;
 
-            @media ( min-width: 768px ) {
-                font-size: ( $base_font_size * 1.2 ) * .9;
-            }
+            // @media ( min-width: 768px ) {
+            //     font-size: ( $base_font_size * 1.2 ) * .9;
+            // }
 
-            @media ( min-width: 1024px ) {
-                font-size: $base_font_size * 1.2;
-            }
+            // @media ( min-width: 1024px ) {
+            //     font-size: $base_font_size * 1.2;
+            // }
         }
     }
 

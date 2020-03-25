@@ -10,7 +10,7 @@
         </p>
         <p>Select an options from the list below...</p>
         <ul class="menu__list">
-            <li class="menu__item" v-for="menu_item in menu_items" v-if="menu_item.name !== 'MenuList'">
+            <li class="menu__item" v-for="menu_item in menu_items" v-if="!menu_item.hide_from_menu">
                 '{{ menu_item.name }}'
                 <template v-for="index in menu_item_spacing_amount( menu_item.name.length )">-</template>
                 '{{ menu_item.description }}'
