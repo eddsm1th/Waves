@@ -7,7 +7,21 @@
     	</div>
         <div v-show="!this.showing_leaderboard" class="minesweeper__game">
         	<ul class="minesweeper__grid" :class="{ 'game-over' : this.game_over, 'winner' : this.winner }">
-        		<li class="minesweeper__tile js-tile" v-for="index in this.tile_count" @contextmenu.prevent="handle_tile_right_click( index )" @click.left="handle_tile_left_click( index )" :id="`ms-tile-${index}`"></li>
+        		<li v-for="index in this.tile_count"
+                    class="minesweeper__tile"
+                    @contextmenu.prevent="handle_tile_right_click( index )"
+                    @click.left="handle_tile_left_click( index )"
+                    :id="`ms-tile-${index}`"
+                    :class="[
+                        {
+                            'flag' : ( placed_flags.indexOf( index ) !== -1 ),
+                            'touching' : clicked_tiles.indexOf( index ) !== -1,
+                            'clicked' : clicked_tiles.indexOf( index ) !== -1,
+                            'bomb' : game_over && bombs_coordinates.indexOf( index ) !== -1
+                        },
+                        clicked_tiles.indexOf( index ) !== -1 ? `touching-${get_surrounding_bomb_count( index )}` : '',
+                    ]">
+                </li>
         	</ul>
             <div class="minesweeper__winner-form" v-if="this.winner && this.can_submit_score">
                 <p>Submit Score</p>
@@ -63,6 +77,7 @@
 				},
 				bombs_coordinates : [],
                 placed_flags : [],
+                clicked_tiles: [],
 				game_over : false,
                 winner : false,
                 tiles : null,
@@ -86,9 +101,6 @@
 
         mounted () {
         	this.populate_grid_with_bombs();
-            // this.show_all_bombs();
-            this.tiles = document.querySelectorAll('.js-tile');
-
             this.timer();
         },
 
@@ -151,11 +163,8 @@
 
             reset () {
                 this.game_over = this.winner = this.showing_leaderboard = this.can_submit_score = false;
-                this.placed_flags = [];
+                this.placed_flags.length = this.clicked_tiles.length = this.bombs_coordinates.length = 0;
                 this.populate_grid_with_bombs();
-                this.tiles.forEach( function ( tile ) {
-                    tile.classList = 'minesweeper__tile'
-                } );
                 this.reset_timer();
             },
 
@@ -175,7 +184,6 @@
                 if ( this.placed_flags.indexOf( index ) === -1 ) {
             		if ( this.check_if_bomb( index ) ) {
             			this.game_over = true;
-            			this.show_all_bombs();
             		} else {
             			this.reveal_tile( index );
             		}
@@ -187,42 +195,27 @@
         	},
 
             toggle_flag_at_index ( index ) {
-                const clicked_tile = document.querySelector(`#ms-tile-${ index }`);
-
-                if ( !clicked_tile.classList.contains( 'clicked' ) ) {
-                    if ( clicked_tile.classList.contains( 'flag' ) ) {
-                        clicked_tile.classList.remove( 'flag' );
+                if ( this.clicked_tiles.indexOf( index ) === -1 ) {
+                    if ( this.placed_flags.indexOf( index ) !== -1 ) {
                         this.placed_flags.splice( this.placed_flags.indexOf( index ), 1 );
                     } else {
                         if ( this.remaining_flags > 0 ) {
-                            clicked_tile.classList.add( 'flag' );
                             this.placed_flags.push( index );
 
-                            this.placed_flags.sort( function ( a, b ) {
+                            this.placed_flags.sort( ( a, b ) => {
                                 return a > b ? 1 : a < b ? -1 : 0;
                             } );
 
-                            if ( this.placed_flags.toString() === this.bombs_coordinates.toString() ) { 
-                                this.winner = true;
-                                this.can_submit_score = true;
-                            }
+                            if ( this.placed_flags.toString() === this.bombs_coordinates.toString() ) this.winner = this.can_submit_score = true;
                         }
                     }
                 }
             },
 
-        	show_all_bombs ( current_bomb_index = 0 ) {
-                document.querySelector(`#ms-tile-${ this.bombs_coordinates[ current_bomb_index ] }`).classList.add('bomb');
-        		
-                // setTimeout( function () {
-                if ( current_bomb_index + 1 < this.minesweeper_config.bomb_count ) this.show_all_bombs( current_bomb_index + 1 );  
-                // }.bind( this ), 30 )
-        	},
-
         	reveal_tile ( index ) {
         		const surrounding_bomb_count = this.get_surrounding_bomb_count( index );
 
-        		document.querySelector(`#ms-tile-${ index }`).classList.add(`touching-${ surrounding_bomb_count }`, 'clicked');
+                this.clicked_tiles.push( index );
                 
                 if ( surrounding_bomb_count === 0 ) this.cascade( index );
         	},
@@ -236,7 +229,7 @@
 
                     const to_check_index = this.get_current_surrounding_position( i, index );
 
-                    if ( !document.querySelector(`#ms-tile-${to_check_index}`).classList.contains('clicked') ) this.reveal_tile( to_check_index );
+                    if ( this.clicked_tiles.indexOf( to_check_index ) === -1 ) this.reveal_tile( to_check_index );
                 }
             },
 
@@ -292,8 +285,6 @@
         	},
 
         	populate_grid_with_bombs () {
-                this.bombs_coordinates = [];
-                
         		for ( let i = 0; i < this.minesweeper_config.bomb_count; i ) {
         			const 	new_bomb_index = Math.ceil( Math.random() * ( this.minesweeper_config.width * this.minesweeper_config.height ) );
 
@@ -304,7 +295,7 @@
         			}
         		}
 
-                this.bombs_coordinates.sort( function ( a, b ) {
+                this.bombs_coordinates.sort( ( a, b ) => {
                     return a > b ? 1 : a < b ? -1 : 0;
                 } );
         	},
@@ -469,11 +460,15 @@
             }
 
             &.flag {
-                background-image: url('../assets/images/minesweeper/flag.png')
+                background-image: url('../assets/images/minesweeper/flag.png');
             }
                                          
             &.bomb {
-            	background-image: url('../assets/images/minesweeper/bomb.png')
+            	background-image: url('../assets/images/minesweeper/bomb.png');
+            }
+
+            &.clicked {
+                background-image: none;
             }
 		}
 	}

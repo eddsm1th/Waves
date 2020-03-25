@@ -1,6 +1,6 @@
 <template>
     <main>
-        <splashscreen></splashscreen>
+        <!-- <splashscreen></splashscreen> -->
 
         <section class="window window--fill">
             <div class="window__header js-draggable-header-offset">
@@ -111,7 +111,7 @@
                         'name' : 'Minesweeper',
                         'description' : 'Kaboom',
                         'is_closeable' : true,
-                        'is_open' : false,
+                        'is_open' : true,
                         'is_focused' : false
                     },
                     {
