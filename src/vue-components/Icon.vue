@@ -67,14 +67,14 @@
 
 		&__media {
 			position: relative;
-			height: 64px;
+			height: 32px;
 			width: 64px;
 			margin: 0 12px; 
-			padding-bottom: calc( 64px);
+			padding-bottom: calc( 32px);
 
 			img {
 				display: block;
-				width: 64px;
+				width: 32px;
 				margin: 0 auto;
 			}
 		}

@@ -1,15 +1,21 @@
 <template>
     <div class="settings">
-        <ul class="settings__list">
-            <li class="settings__list-item" v-for="wallpaper in wallpapers" :class="{ 'active' : wallpaper.checked}" @click="handle_new_wallpaper_selection( wallpaper )">
-                <span>{{ wallpaper.name }}</span>
-            </li>
-        </ul>
-        <ul class="settings__list">
-            <li class="settings__list-item" v-for="font_size in font_sizes" :class="{ 'active' : font_size.checked}" @click="handle_new_font_selection( font_size )">
-                <span>{{ font_size.name }}</span>
-            </li>
-        </ul>
+        <div class="settings__block">
+            <h3>Wallpaper</h3>
+            <ul class="settings__list">
+                <li class="settings__list-item" v-for="wallpaper in wallpapers" :class="{ 'active' : wallpaper.checked}" @click="handle_new_wallpaper_selection( wallpaper )">
+                    <span>{{ wallpaper.name }}</span>
+                </li>
+            </ul>
+        </div>
+        <div class="settings__block">
+            <h3>Font size</h3>
+            <ul class="settings__list">
+                <li class="settings__list-item" v-for="font_size in font_sizes" :class="{ 'active' : font_size.checked}" @click="handle_new_font_selection( font_size )">
+                    <span>{{ font_size.name }}</span>
+                </li>
+            </ul>
+        </div>
     </div>
 </template>
 
@@ -103,6 +109,15 @@
         font-weight: 700;
         width: 16rem;
 
+        &__block {
+            &:not(:first-child) {
+                margin-top: 1rem;
+            }
+
+            h3 {
+                font-size: .8rem;
+            }
+        }
 
         &__list {
             list-style: none;
