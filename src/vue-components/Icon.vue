@@ -40,7 +40,7 @@
 	}
 
 	.icon {
-		width: 80px;
+		width: 88px;
 		margin: 0 8px;
 		padding: 16px 0;
 		position: relative;
@@ -67,14 +67,14 @@
 
 		&__media {
 			position: relative;
-			height: 32px;
+			height: 64px;
 			width: 64px;
-			margin: 0 8px; 
-			padding-bottom: calc( 32px);
+			margin: 0 12px; 
+			padding-bottom: calc( 64px);
 
 			img {
 				display: block;
-				width: 32px;
+				width: 64px;
 				margin: 0 auto;
 			}
 		}

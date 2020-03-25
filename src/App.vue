@@ -1,6 +1,6 @@
 <template>
     <main>
-        <!-- <splashscreen></splashscreen> -->
+        <splashscreen></splashscreen>
 
         <section class="window window--fill">
             <div class="window__header js-draggable-header-offset">
@@ -42,10 +42,6 @@
             Splashscreen,
             Headerutilities,
             Icon,
-        },
-
-        methods: {
-
         },
 
         computed: {
@@ -109,19 +105,19 @@
                     {
                         'id' : 5,
                         'name' : 'Minesweeper',
-                        'description' : 'Kaboom',
-                        'is_closeable' : true,
-                        'is_open' : true,
-                        'is_focused' : false
-                    },
-                    {
-                        'id' : 6,
-                        'name' : 'Radio',
-                        'description' : 'Tune into The MZA and the E Masta Flash',
+                        'description' : 'but I barely know her...',
                         'is_closeable' : true,
                         'is_open' : false,
                         'is_focused' : false
                     },
+                    // {
+                    //     'id' : 6,
+                    //     'name' : 'Radio',
+                    //     'description' : 'Tune into The MZA and the E Masta Flash',
+                    //     'is_closeable' : true,
+                    //     'is_open' : false,
+                    //     'is_focused' : false
+                    // },
                     {
                         'id' : 7,
                         'name' : 'Wednesday',

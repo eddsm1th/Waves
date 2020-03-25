@@ -8,7 +8,7 @@
             &nbsp;/&nbsp;/&nbsp;&nbsp;/&nbsp;/&nbsp;&nbsp;__/&nbsp;/&nbsp;/&nbsp;/&nbsp;/_/&nbsp;/<br>
             /_/&nbsp;&nbsp;/_/\___/_/&nbsp;/_/\__,_/<br>
         </p>
-        <p>Select an options from the list below...</p>
+        <p>Select an option from the list below...</p>
         <ul class="menu__list">
             <li class="menu__item" v-for="menu_item in menu_items" v-if="!menu_item.hide_from_menu">
                 '{{ menu_item.name }}'
