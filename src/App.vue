@@ -11,7 +11,7 @@
             <div class="window__main js-background-image-element" style="background-image: url('https://www.betaarchive.com/imageupload/1304990899.or.90622.png'); height: 100%;">
 
                 <ul class="icons">
-                    <icon v-for="menu_item in menu_items" :menu_item_data="menu_item" :menu_items="menu_items"></icon>
+                    <icon v-for="menu_item in menu_items" :menu_item_data="menu_item" :menu_items="menu_items" v-if="!menu_item.hide_icon"></icon>
                 </ul>
 
                 <window v-for="menu_item in menu_items" :menu_item_data="menu_item" :menu_items="menu_items"></window>
@@ -129,7 +129,8 @@
                         'is_closeable' : true,
                         'is_open' : false,
                         'is_focused' : false,
-                        'hide_from_menu' : true
+                        'hide_from_menu' : true,
+                        'hide_icon' : true,
                     },
                 ],
                 menu_selector: null,

@@ -27,7 +27,7 @@
                 <p>Submit Score</p>
                 <input placeholder="Enter name" type="text" v-model="new_name">
                 <button @click="submit_score">Submit</button>
-                <p @click="toggle_leaderboard()">View Leaderboard</p>
+                <p @click="showing_leaderboard = !showing_leaderboard;">View Leaderboard</p>
             </div>
         </div>
         <div v-show="this.showing_leaderboard" class="minesweeper__leaderboard">

@@ -1,7 +1,9 @@
 <template>
 	<li class="icon js-draggable js-draggable-trigger" @dblclick="activate_item( menu_item_data.name )">
 		<div class="icon__media">
-			<img src="">
+			<img :src="[
+				`src/assets/images/icons/${ menu_item_data.slug ? menu_item_data.slug : menu_item_data.name }.png`
+			]">
 		</div>
 		<p class="icon__text">{{ menu_item_data.slug ? menu_item_data.slug : menu_item_data.name }}</p>
 	</li>
@@ -40,7 +42,7 @@
 	.icon {
 		width: 80px;
 		margin: 0 8px;
-		padding: 8px 0;
+		padding: 16px 0;
 		position: relative;
 
 		&:active {
@@ -65,11 +67,16 @@
 
 		&__media {
 			position: relative;
-			height: 64px;
+			height: 32px;
 			width: 64px;
 			margin: 0 8px; 
-			background-color: deeppink;
-			padding-bottom: calc( 100% - 1rem);
+			padding-bottom: calc( 32px);
+
+			img {
+				display: block;
+				width: 32px;
+				margin: 0 auto;
+			}
 		}
 
 		&__text {
