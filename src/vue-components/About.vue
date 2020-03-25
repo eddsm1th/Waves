@@ -20,13 +20,40 @@
         	return {
         		content: `what up; i'm edd.
 
-i'm a front end web develop based in derbyshire in the uk.
+i'm a front end web developer based in derbyshire in the uk.
 
 i enjoy making websites that are pleasing to the eye and are a step out of the norm.
 
-currently i am working full time, but feel free to say hello or even just recommend me a song...
+currently i am working full time, but feel free to say hello or even just recommend me a song... (i aware you can't right now, but that'll come soon)
 
-:)`
+there is a blog on this, i don't write on it much, but feel free to check it out. it's mainly to do with pop culture and music n' all that. i just plan on writing about anything though - so check back soon.
+
+:)
+
+
+
+ps. theres a bunch of secret stuff hidden on the site for you to find
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+wednesday`
         	}
         }
     };
