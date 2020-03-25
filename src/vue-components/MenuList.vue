@@ -17,7 +17,7 @@
             </li>
         </ul>
         <p>To select an option, type the name then hit [RETURN].</p>
-        <form @submit="handle_menu_selection( $event );">
+        <form @submit.prevent="handle_menu_selection();">
             $://Input:
             <input class="menu__selector js-menu-selector" type="text" name="" v-model="potential_selection">
         </form>
@@ -49,8 +49,7 @@
                 return Math.ceil( this.max_menu_item_length / 4 ) * 4 + 4 - parseInt( current_word_length );
             },
 
-			handle_menu_selection ( event ) {
-                event.preventDefault();
+			handle_menu_selection () {
                 if ( this.selected_menu_item ) {
                     if ( this.focused_menu_item ) this.focused_menu_item.is_focused = false;
                     this.selected_menu_item.is_open = this.selected_menu_item.is_focused = true;
